@@ -1,0 +1,77 @@
+@font-face {
+    font-family: myFirstFont0;
+    src: url('../../assets/fonts/BNaznnBd.ttf');
+}
+
+@font-face {
+    font-family: myFirstFont1;
+    src: url('../../assets/fonts/BRoyaBd.ttf');
+}
+
+@font-face {
+    font-family: myFirstFont2;
+    src: url('../../assets/fonts/BYekan.ttf');
+}
+
+@import '~@angular/material/theming';
+#myBtn {
+    font-family: myFirstFont2;
+    font-size: 14px;
+    float: left;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+mat-card {
+    max-width: 250px;
+    /* background-color: rgb(240, 240, 240); */
+    /* border-width:1px; */
+    border-radius: 8px;
+    box-shadow: 20px 20px 20px 10px #8888;
+    margin: 3em auto;
+    text-align: center;
+    font-family: myFirstFont2;
+    font-size: larger;
+    opacity: 1;
+}
+
+.signin-content {
+    padding: 60px 1rem;
+}
+
+.full-width-input {
+    width: 100%;
+}
+
+.full-width-input {
+    font-family: myFirstFont1;
+}
+
+#butt {
+    font-family: myFirstFont2;
+}
+
+#loginbox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#bg {
+    background-image: url('../../assets/img/login-bg/loginpagebg.jpg');
+    direction: rtl;
+    height: 100%;
+    background-size: contain;
+    background-color: white;
+    background-position: bottom left;
+    background-repeat: no-repeat;
+}
+
+#logo {
+    background-image: url('../../assets/logo.png');
+    margin: auto;
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 100px;
+}

@@ -1,0 +1,166 @@
+<!--Confirm Action Starts-->
+<!-- <button type="button" class="btn btn-raised btn-warning mr-1" (click)="sendnotif()">
+  <i class="ft-x"></i> انصراف
+</button> -->
+<!-- <app-cdown></app-cdown> -->
+<section id="action">
+  <div class="row text-center" style="margin: auto;">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">فیلترینگ </h4>
+        </div>
+        <div class="card-content">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-3" style="margin: 10px;">
+                <label for="eventInput2"> انتخاب قرارداد</label>
+                <div class="row">
+                  <ng-select [items]="contracts" [multiple]="false" bindLabel="name" [selectableGroup]="false"
+                    [selectableGroupAsModel]="false" [closeOnSelect]="true" bindValue="id"
+                    (change)="selectcon()" [(ngModel)]="contselected" [ngModelOptions]="{standalone: true}"
+                    style="direction: rtl;text-align: right; width:100%; margin: auto;border: solid rgb(224, 219, 219) 1px; border-radius: 4px;"
+                    id="sgp">
+                    <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
+                      <div style=" font-size: larger;color: darkblue;height: 30px;">
+                        {{item.name }}
+                      </div>
+                    </ng-template>
+                  </ng-select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row text-left">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">خسارت های ثبت شده</h4>
+        </div>
+        <div class="card-content">
+          <div class="card-body">
+            <div *ngIf="user" class="table-responsive">
+              <ng2-smart-table [settings]="alertsettings" [source]="alertSource" style="font-family: 'iransans'"
+                (deleteConfirm)="onDeleteConfirm($event)" (editConfirm)="onSaveConfirm($event)"
+                (createConfirm)="onCreateConfirm($event)" (custom)="regclaim($event)"></ng2-smart-table>
+            </div>
+            <div *ngIf="segalemp" class="table-responsive">
+              <mat-tab-group>
+                <mat-tab label="اعتراضات">
+                  <ng2-smart-table [settings]="alertsettings1" [source]="alertSource3" style="font-family: 'iransans'"
+                    (deleteConfirm)="onDeleteConfirm($event)" (editConfirm)="onSaveConfirm($event)"
+                    (createConfirm)="onCreateConfirm($event)" (custom)="regclaim($event)"></ng2-smart-table>
+                </mat-tab>
+                <mat-tab label="هزینه های جدید">
+                  <ng2-smart-table [settings]="alertsettings1" [source]="alertSource" style="font-family: 'iransans'"
+                    (deleteConfirm)="onDeleteConfirm($event)" (editConfirm)="onSaveConfirm($event)"
+                    (createConfirm)="onCreateConfirm($event)" (custom)="regclaim($event)"></ng2-smart-table>
+                </mat-tab>
+
+                <mat-tab label="هزینه های در جریان">
+                  <ng2-smart-table [settings]="alertsettings1" [source]="alertSource1" style="font-family: 'iransans'"
+                    (deleteConfirm)="onDeleteConfirm($event)" (editConfirm)="onSaveConfirm($event)"
+                    (createConfirm)="onCreateConfirm($event)" (custom)="regclaim($event)"></ng2-smart-table>
+                </mat-tab>
+                <mat-tab label="هزینه های پرداخت شده">
+                  <ng2-smart-table [settings]="alertsettings1" [source]="alertSource2" style="font-family: 'iransans'"
+                    (deleteConfirm)="onDeleteConfirm($event)" (editConfirm)="onSaveConfirm($event)"
+                    (createConfirm)="onCreateConfirm($event)" (custom)="regclaim($event)"></ng2-smart-table>
+                </mat-tab>
+              </mat-tab-group>
+            </div>
+            <div *ngIf="superadmin" class="table-responsive">
+              <mat-tab-group>
+                <mat-tab label="اعتراضات">
+                  <ng2-smart-table [settings]="alertsettings1" [source]="alertSource3" style="font-family: 'iransans'"
+                    (deleteConfirm)="onDeleteConfirm($event)" (editConfirm)="onSaveConfirm($event)"
+                    (createConfirm)="onCreateConfirm($event)" (custom)="regclaim($event)"></ng2-smart-table>
+                </mat-tab>
+                <mat-tab label="هزینه های جدید">
+                  <ng2-smart-table [settings]="alertsettings1" [source]="alertSource" style="font-family: 'iransans'"
+                    (deleteConfirm)="onDeleteConfirm($event)" (editConfirm)="onSaveConfirm($event)"
+                    (createConfirm)="onCreateConfirm($event)" (custom)="regclaim($event)"></ng2-smart-table>
+                </mat-tab>
+
+                <mat-tab label="هزینه های در جریان">
+                  <ng2-smart-table [settings]="alertsettings1" [source]="alertSource1" style="font-family: 'iransans'"
+                    (deleteConfirm)="onDeleteConfirm($event)" (editConfirm)="onSaveConfirm($event)"
+                    (createConfirm)="onCreateConfirm($event)" (custom)="regclaim($event)"></ng2-smart-table>
+                </mat-tab>
+                <mat-tab label="هزینه های پرداخت شده">
+                  <ng2-smart-table [settings]="alertsettings1" [source]="alertSource2" style="font-family: 'iransans'"
+                    (deleteConfirm)="onDeleteConfirm($event)" (editConfirm)="onSaveConfirm($event)"
+                    (createConfirm)="onCreateConfirm($event)" (custom)="regclaim($event)"></ng2-smart-table>
+                </mat-tab>
+              </mat-tab-group>
+            </div>
+            <div *ngIf="admin" class="table-responsive">
+              <mat-tab-group>
+                <mat-tab label="اعتراضات">
+                  <ng2-smart-table [settings]="alertsettings1" [source]="alertSource3" style="font-family: 'iransans'"
+                    (deleteConfirm)="onDeleteConfirm($event)" (editConfirm)="onSaveConfirm($event)"
+                    (createConfirm)="onCreateConfirm($event)" (custom)="regclaim($event)"></ng2-smart-table>
+                </mat-tab>
+                <mat-tab label="هزینه های جدید">
+                  <ng2-smart-table [settings]="alertsettings1" [source]="alertSource" style="font-family: 'iransans'"
+                    (deleteConfirm)="onDeleteConfirm($event)" (editConfirm)="onSaveConfirm($event)"
+                    (createConfirm)="onCreateConfirm($event)" (custom)="regclaim($event)"></ng2-smart-table>
+                </mat-tab>
+
+                <mat-tab label="هزینه های در جریان">
+                  <ng2-smart-table [settings]="alertsettings1" [source]="alertSource1" style="font-family: 'iransans'"
+                    (deleteConfirm)="onDeleteConfirm($event)" (editConfirm)="onSaveConfirm($event)"
+                    (createConfirm)="onCreateConfirm($event)" (custom)="regclaim($event)"></ng2-smart-table>
+                </mat-tab>
+                <mat-tab label="هزینه های پرداخت شده">
+                  <ng2-smart-table [settings]="alertsettings1" [source]="alertSource2" style="font-family: 'iransans'"
+                    (deleteConfirm)="onDeleteConfirm($event)" (editConfirm)="onSaveConfirm($event)"
+                    (createConfirm)="onCreateConfirm($event)" (custom)="regclaim($event)"></ng2-smart-table>
+                </mat-tab>
+              </mat-tab-group>
+            </div>
+            <div *ngIf="evaluator" class="table-responsive">
+              <mat-tab-group>
+                <mat-tab label="اعتراضات">
+                  <ng2-smart-table [settings]="alertsettings1" [source]="alertSource3" style="font-family: 'iransans'"
+                    (deleteConfirm)="onDeleteConfirm($event)" (editConfirm)="onSaveConfirm($event)"
+                    (createConfirm)="onCreateConfirm($event)" (custom)="regclaim($event)"></ng2-smart-table>
+                </mat-tab>
+
+                <mat-tab label="هزینه های جدید">
+                  <ng2-smart-table [settings]="alertsettings1" [source]="alertSource" style="font-family: 'iransans'"
+                    (deleteConfirm)="onDeleteConfirm($event)" (editConfirm)="onSaveConfirm($event)"
+                    (createConfirm)="onCreateConfirm($event)" (custom)="regclaim($event)"></ng2-smart-table>
+                </mat-tab>
+
+                <mat-tab label="هزینه های در جریان">
+                  <ng2-smart-table [settings]="alertsettings1" [source]="alertSource1" style="font-family: 'iransans'"
+                    (deleteConfirm)="onDeleteConfirm($event)" (editConfirm)="onSaveConfirm($event)"
+                    (createConfirm)="onCreateConfirm($event)" (custom)="regclaim($event)"></ng2-smart-table>
+                </mat-tab>
+                <mat-tab label="هزینه های پرداخت شده">
+                  <ng2-smart-table [settings]="alertsettings1" [source]="alertSource2" style="font-family: 'iransans'"
+                    (deleteConfirm)="onDeleteConfirm($event)" (editConfirm)="onSaveConfirm($event)"
+                    (createConfirm)="onCreateConfirm($event)" (custom)="regclaim($event)"></ng2-smart-table>
+                </mat-tab>
+              </mat-tab-group>
+            </div>
+            <div *ngIf="insured" class="table-responsive">
+              <ng2-smart-table [settings]="alertsettings2" [source]="alertSource" style="font-family: 'iransans'"
+                (deleteConfirm)="onDeleteConfirm($event)" (editConfirm)="onSaveConfirm($event)"
+                (createConfirm)="onCreateConfirm($event)" (custom)="regclaim($event)"></ng2-smart-table>
+            </div>
+            <app-claimdetail *ngIf="showdetial" [childMessage1]="tc" (onClose)="modalClosed($event)"></app-claimdetail>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</section>
+<!--Confirm Action Ends-->

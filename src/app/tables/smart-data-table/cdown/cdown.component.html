@@ -1,0 +1,8 @@
+
+status: {{status}} <br>
+<div style="color: red;">{{days}}</div>
+<!-- <countdown #countdown  [config]="config" (finished)="finishTest()"></countdown> -->
+<div>
+<button (click)="resetTimer()" class="btn btn-link btn-sm">Reset</button>
+<countdown #countdown [config]="config" (event)="timesUp($event)"></countdown>
+</div>

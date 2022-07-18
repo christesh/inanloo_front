@@ -1,0 +1,225 @@
+
+
+<div class="continer" style="padding:20px; border-radius: 8px;box-shadow: rgb(102, 102, 102) 5px;border: gray solid 1px;background-color: white;">
+  <div class="row">
+    <div class="col-sm-12" style="text-align: right;">
+      <h6><strong> لطفا گزینه ها مربوط به گزارش را انتخاب نمائید</strong></h6>
+    </div>
+  </div>
+  <div class="row">  
+    <div class="col-sm-7">
+      <table class="table table-bordered " style="text-align: right;font-family: iransans;">
+        <thead>
+          <tr>
+            <th scope="col" style="width: 50px;"></th>
+            <th scope="col" style="width: 250px;">گروه بندی نتایج</th>
+            <th scope="col" *ngIf="optionsel" style="width: 600px;">انتخاب شرایط</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class="custom-control custom-checkbox">
+                  <input type="checkbox" name="ch1" class="custom-control-input" id="customCheck1" (change)="contractch()" [(ngModel)]="conflag" >
+                  <label class="custom-control-label" for="customCheck1"></label>
+              </div>
+            </td>
+            <td>قرارداد</td>
+            <td *ngIf="optionsel">
+              <ng-select *ngIf="concombo" [items]="contract" [multiple]="true" groupBy="all" bindLabel="title" [selectableGroup]="true"
+                [selectableGroupAsModel]="false" [closeOnSelect]="false" bindValue="id" (change)="getValues1()"
+                placeholder="انتخاب قرارداد" [(ngModel)]="selected1"
+                style="direction: rtl;text-align: right; width:100%; margin: auto; " id="sgp">
+                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index" id="sgp">
+                  <div style="padding-right: 10px;">
+                    <input id="item-{{index}}" type="checkbox" [ngModel]="item$.selected"  />
+                    {{item.title }}
+                  </div>
+                </ng-template>
+              </ng-select>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="customCheck2" (change)="planch()" [(ngModel)]="plnflag">
+                  <label class="custom-control-label" for="customCheck2"></label>
+              </div>
+            </td>
+            <td>طرح</td>
+            <td *ngIf="optionsel">
+              <ng-select *ngIf="plancombo" [items]="plan" [multiple]="true" groupBy="all" bindLabel="title" [selectableGroup]="true"
+                [selectableGroupAsModel]="false" [closeOnSelect]="false" bindValue="id" (change)="getValues2()"
+                placeholder="انتخاب طرح" [(ngModel)]="selected2"
+                style="direction: rtl;text-align: right; width:100%; margin: auto;" id="sgp">
+                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index" id="sgp">
+                  <div style="padding-right: 10px; ">
+                    <input id="item-{{index}}" type="checkbox" [ngModel]="item$.selected" id="sgp" />
+                    {{item.title }}
+                  </div>
+                </ng-template>
+              </ng-select>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="customCheck3" (change)="servch()" [(ngModel)]="svrflag">
+                  <label class="custom-control-label" for="customCheck3"></label>
+              </div>
+            </td>
+            <td>تعهد</td>
+            <td *ngIf="optionsel">
+              <ng-select *ngIf="svrcombo" [items]="service" [multiple]="true" groupBy="all" bindLabel="title" [selectableGroup]="true"
+                [selectableGroupAsModel]="false" [closeOnSelect]="false" bindValue="id" (change)="getValues3()"
+                placeholder="انتخاب تعهد" [(ngModel)]="selected3"
+                style="direction: rtl;text-align: right; width:100%; margin: auto;" id="sgp">
+                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index" id="sgp">
+                  <div style="padding-right: 10px;">
+                    <input id="item-{{index}}" type="checkbox" [ngModel]="item$.selected" id="sgp" />
+                    {{item.title }}
+                  </div>
+                </ng-template>
+              </ng-select>
+            </td>
+            
+          </tr>
+          <tr>
+            <td>
+              <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="customCheck4" (change)="subservch()" [(ngModel)]="subsvrflag">
+                  <label class="custom-control-label" for="customCheck4"></label>
+              </div>
+            </td>
+            <td>خدمت</td>
+            <td *ngIf="optionsel">
+              <ng-select *ngIf="subsvrcombo" [items]="subservice" [multiple]="true" bindLabel="title" groupBy="all" [selectableGroup]="true"
+                [selectableGroupAsModel]="false" [closeOnSelect]="false" bindValue="id" (change)="getValues4()"
+                placeholder="انتخاب خدمت" [(ngModel)]="selected4"
+                style="direction: rtl;text-align: right; width:100%; margin: auto;" id="sgp">
+                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index" id="sgp">
+                  <div style="padding-right: 10px;">
+                    <input id="item-{{index}}" type="checkbox" [ngModel]="item$.selected" id="sgp" />
+                    {{item.title }}
+                  </div>
+                </ng-template>
+              </ng-select>
+            </td>
+            
+          </tr>
+          <tr>
+            <td>
+              <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="customCheck5" (change)="genderch()" [(ngModel)]="genderflag">
+                  <label class="custom-control-label" for="customCheck5"></label>
+              </div>
+            </td>
+            <td>جنسیت</td>
+            <td *ngIf="optionsel">
+              <ng-select *ngIf="gendercombo" [items]="gender" [multiple]="true" bindLabel="title" groupBy="all" [selectableGroup]="true"
+                [selectableGroupAsModel]="false" [closeOnSelect]="false" bindValue="id" (change)="getValues5()"
+                placeholder="انتخاب جنسیت" [(ngModel)]="selected5"
+                style="direction: rtl;text-align: right; width:100%; margin: auto;" id="sgp">
+                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index" id="sgp">
+                  <div style="padding-right: 10px;">
+                    <input id="item-{{index}}" type="checkbox" [ngModel]="item$.selected"  />
+                    {{item.title }}
+                  </div>
+                </ng-template>
+              </ng-select>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="customCheck6" (change)="agech()" [(ngModel)]="ageflag">
+                  <label class="custom-control-label" for="customCheck6"></label>
+              </div>
+            </td>
+            <td>بازه سنی</td>
+            <td *ngIf="optionsel" >
+              <ng-select *ngIf="agecombo" [items]="age" [multiple]="true" bindLabel="title" groupBy="all" [selectableGroup]="true"
+                [selectableGroupAsModel]="false" [closeOnSelect]="false" bindValue="id" (change)="getValues6()"
+                placeholder="انتخاب بازه سنی" [(ngModel)]="selected6"
+                style="direction: rtl;text-align: right; width:100%; margin: auto;" id="sgp">
+                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index" id="sgp">
+                  <div style="padding-right: 10px;">
+                    <input id="item-{{index}}" type="checkbox" [ngModel]="item$.selected"  />
+                    {{item.title }}
+                  </div>
+                </ng-template>
+              </ng-select>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-sm-2" *ngIf="gselect">
+      <table class="table table-bordered " style="text-align: right;font-family: iransans;">
+        <thead>
+          <tr>
+            <th scope="col" style="width: 50px;"></th>
+            <th scope="col" style="width: 250px;">آمار جمعیتی</th> 
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let rr of allrows">
+            <td>
+              <div class="custom-control custom-checkbox">
+                  <input type="checkbox"  class="custom-control-input" id="{{rr.id}}" (change)="amarallselect(rr.id)" [(ngModel)]="amarallflag[rr.id]" >
+                  <label class="custom-control-label" for="{{rr.id}}"></label>
+              </div>
+            </td>
+            <td>{{rr.title}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-sm-2">
+      <table class="table table-bordered " style="text-align: right;font-family: iransans;">
+        <thead>
+          <tr>
+            <th scope="col" style="width: 50px;"></th>
+            <th scope="col" style="width: 250px;">آمار نتایج</th> 
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let r of rows">
+            <td>
+              <div class="custom-control custom-checkbox">
+                  <input type="checkbox"  class="custom-control-input" id="{{r.id}}" (change)="amarselect(r.id)" [(ngModel)]="amarflag[r.id]" >
+                  <label class="custom-control-label" for="{{r.id}}"></label>
+              </div>
+            </td>
+            <td>{{r.title}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row">
+
+  </div>
+  <div class="row">
+    <div *ngIf="!showtable" class="col-sm-2" style="float: right;">
+      <button type="button" class="btn btn-raised btn-info btn-block my-2" style="margin:auto" (click)="run()">
+        <i class="ft-filter" style="margin-left: 10px;"></i> اعمال فیلتر</button>
+    </div>
+    <div *ngIf="showtable" class="col-sm-2" style="float: right;">
+      <button type="button" class="btn btn-raised btn-info btn-block my-2" style="margin:auto" (click)="clear()">
+        <i class="ft-rotate-cw" style="margin-left: 10px;"></i> حذف فیلتر</button>
+    </div>
+    <div *ngIf="showtable" class="col-sm-2" style="float: left;">
+      <button type="button" class="btn btn-raised btn-info btn-block my-2" style="margin:auto" (click)="exportxls()">
+        <i class="ft-download" style="margin-left: 10px;"></i> خروجی اکسل</button>
+    </div>
+  </div>
+  <div class="row" *ngIf="showtable" style="padding: 10px; border-radius: 4px;border:gray solid 1px">
+    <div  class="col-sm-12" style="direction: rtl;text-align: right;">
+      <ng2-smart-table [settings]="tablesetting" [source]="alertSource" id="excel-table"
+									style="font-family: 'iransans'" (deleteConfirm)="onDeleteConfirm($event)"
+									(editConfirm)="onSaveConfirm($event)" (createConfirm)="onCreateConfirm($event)"
+									(custom)="regclaim($event)"></ng2-smart-table>
+    </div>
+  </div>
+</div>

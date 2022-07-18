@@ -1,0 +1,269 @@
+<html id="resid">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+  integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+<!-- JS, Popper.js, and jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+  integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+  integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+  integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+<style>
+  html,
+  body,
+  h1,
+  h2,
+  h3,
+  h4,
+  p,
+  img {
+    font-family: Tahoma;
+    margin: 0;
+  }
+
+  /* margin reset*/
+  h1 {
+    font-size: 18pt;
+    font-weight: 500;
+    margin-bottom: 0.5cm;
+  }
+
+  h2 {
+    font-size: 14pt;
+    font-weight: 500;
+  }
+
+  p {
+    font-size: 12pt;
+  }
+
+  .items-group {
+    border-style: solid;
+    border-color: black;
+    border-width: 1pt 1pt 1pt 1pt;
+    border-radius: 5pt;
+    padding: 3pt 3pt 3pt 3pt;
+    margin: 9pt 0 9pt 0;
+  }
+
+  .logotipo {
+    width: 6cm;
+    height: 4cm;
+    margin: -0.5cm;
+  }
+
+  .label {
+    font-weight: 500;
+  }
+
+  .disclaimer,
+  .address p {
+    font-size: 10pt;
+  }
+
+  .signature-field {
+    padding-bottom: 24pt;
+    border-bottom: solid black 1pt;
+  }
+</style>
+
+<body onload="window.print()" style="direction: rtl; ">
+  <br>
+  <div class="container" style="border-radius: 8px;  padding: 20px;">
+    <br>
+    <div class="row"
+      style="margin-bottom: 25px;  border-bottom: solid rgb(223, 223, 223) 1px;padding-bottom: 20px;">
+      <div class="col-sm-4" style="margin: auto;text-align: center;">
+        <img [src]="inspic" style=" width: 100px; ">
+      </div>
+      <div class="col-sm-4" style="margin: auto;text-align: center;">
+        <img src="http://bimeh.plus/media/images/تدبیر_پوشش_لوگو.png" style=" width: 100px; ">
+      </div>
+      <div class="col-sm-4" style="margin: auto;text-align: center;">
+        <img [src]="compic" style=" width: 100px; ">
+      </div>
+
+    </div>
+    <div class="row" style="margin-bottom: 25px;  border-bottom: solid rgb(223, 223, 223) 1px; padding: 25px;">
+      <div class="col-xl-7 col-lg-7 col-7" style="text-align: right; margin-right: 10px;">
+
+        <h5>قرارداد: {{contarct}}</h5>
+        <!-- <h6>شماره بیمه نامه : {{insurno}}</h6> -->
+        <h6>کاربر ثبت کننده: {{sabtkonnade}}</h6>
+        <h6>تاریخ ثبت: {{cdate}}</h6>
+        <!-- <h2>کد ملی: {{NID}}</h2>
+        <h2>اصلی یا تبعی: {{main}}</h2> -->
+
+      </div>
+      <div class="col-xl-4 col-lg-4 col-4" style="float: left; margin-left: 20px;">
+
+        <qrcode [level]="1" [qrvalue]="myAngularxQrCode"></qrcode>
+
+      </div>
+    </div>
+    <br>
+    <div class="row" style="padding: 20px;">
+      <div class="col-sm-12" style="margin: auto; text-align: center;">
+        <table style="margin: auto;">
+          <thead>
+            <tr>
+              <td
+                style="text-align: center;padding: 5px; height: 50px; background-color: rgb(175, 175, 175);border-right: solid 2px grey; border-top: solid 2px grey; border-bottom: solid 2px grey;">
+                <strong>ردیف</strong></td>
+              <td
+                style="text-align: center;padding: 5px; height: 50px; background-color: rgb(175, 175, 175);border-right: solid 1px grey; border-top: solid 2px grey; border-bottom: solid 2px grey;">
+                <strong>کد پیگری</strong></td>
+              <td
+                style="text-align: center;padding: 5px; height: 50px;background-color: rgb(175, 175, 175); border-right: solid 1px grey;border-top: solid 2px grey; border-bottom: solid 2px grey;">
+                <strong>بیمه شده</strong></td>
+              <td
+                style="text-align: center;padding: 5px; height: 50px;background-color: rgb(175, 175, 175); border-right: solid 1px grey;border-top: solid 2px grey; border-bottom: solid 2px grey;">
+                <strong>نوع هزینه</strong></td>
+              <td
+                style="text-align: center;padding: 5px; height: 50px;background-color: rgb(175, 175, 175);border-right: solid 1px grey; border-top: solid 2px grey; border-bottom: solid 2px grey;">
+                <strong>تاریخ هزینه </strong></td>
+              <td
+                style="text-align: center;padding: 5px; height: 50px;background-color: rgb(175, 175, 175); border-right: solid 1px grey;border-left: solid 2px grey;border-top: solid 2px grey; border-bottom: solid 2px grey;">
+                <strong>مبلغ</strong></td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of rows">
+              <td
+                style="text-align: center;padding: 5px; height: 50px; background-color: whitesmoke; border: solid 1px grey; border-right: solid 2px grey;">
+                {{row.row}}</td>
+              <td
+                style="text-align: center;padding: 5px; height: 50px; background-color: whitesmoke; border: solid 1px grey;">
+                {{row.tc}}</td>
+              <td
+                style="text-align: center;padding: 5px; height: 50px; background-color: whitesmoke; border: solid 1px grey;">
+                {{row.name}}</td>
+              <td
+                style="text-align: center;padding: 5px; height: 50px;background-color: whitesmoke; border:solid 1px grey;">
+                {{row.svr}}</td>
+              <td
+                style="text-align: center;padding: 5px; height: 50px;background-color: whitesmoke; border:solid 1px grey;">
+                {{row.date}}</td>
+              <td
+                style="text-align: center;padding: 5px; height: 50px;background-color: whitesmoke; border:solid 1px grey;border-left: solid 2px grey;">
+                {{row.cost}}</td>
+            </tr>
+            <tr>
+              <td
+                style="text-align: center;padding: 5px; height: 50px; background-color: rgb(194, 191, 191); border-right: solid 2px grey;border-bottom: solid 2px grey;">
+                <strong></strong></td>
+              <td
+                style="text-align: center;padding: 5px; height: 50px; background-color: rgb(194, 191, 191); border-bottom: solid 2px grey;">
+                <strong></strong></td>
+              <td
+                style="text-align: center;padding: 5px; height: 50px; background-color: rgb(194, 191, 191); border-bottom: solid 2px grey;">
+                <strong></strong></td>
+              <td
+                style="text-align: center;padding: 5px; height: 50px;background-color: rgb(194, 191, 191); border-bottom:solid 2px grey;">
+                <strong></strong></td>
+              <td
+                style="text-align: center;padding: 5px; height: 50px;background-color: rgb(194, 191, 191);border-left: solid 1px grey; border-bottom:solid 2px grey;">
+                <strong>جمع کل</strong></td>
+              <td
+                style="text-align: center;padding: 5px; height: 50px;background-color: rgb(194, 191, 191); border-left: solid 2px grey; border-bottom:solid 2px grey;">
+                <strong>{{sum}}</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+    <div class="row" style="padding: 20px;">
+      <div class="col-sm-12" style="margin: auto; text-align: center;">
+        <div class="row">
+
+
+        </div>
+        <br>
+        <div class="row">
+          <div style="margin: auto; text-align: center;">
+            <table style="border: solid gray 2px;">
+              <tr>
+                <td rowspan="2"
+                  style="text-align: center;padding: 5px; height: 50px; background-color: rgb(175, 175, 175);border: solid gray 2px;">
+                  <strong>بیمه شده</strong></td>
+                <td colspan="4"
+                  style="text-align: center;padding: 5px; height: 50px; background-color: rgb(175, 175, 175); border-top: solid gray 2px;border-left: solid gray 2px;border-bottom: solid black 1px;">
+                  <strong>تعداد</strong></td>
+                <td colspan="2"
+                  style="text-align: center;padding: 5px; height: 50px; background-color: rgb(175, 175, 175); border-top: solid gray 2px;border-left: solid gray 2px;border-bottom: solid gray 1px;">
+                  <strong>مبلغ کل (ریال)</strong></td>
+              </tr>
+              <tr>
+                <td
+                  style="text-align: center;padding: 5px; height: 50px; background-color: rgb(175, 175, 175);border-bottom: solid gray 2px; border-left: solid gray 1px;">
+                  کل</td>
+                <td
+                  style="text-align: center;padding: 5px; height: 50px; background-color: rgb(175, 175, 175);border-bottom: solid gray 2px; border-left: solid gray 1px;">
+                  پرداخت شده</td>
+                <td
+                  style="text-align: center;padding: 5px; height: 50px; background-color: rgb(175, 175, 175);border-bottom: solid gray 2px; border-left: solid gray 1px;">
+                  رد شده</td>
+                <td
+                  style="text-align: center;padding: 5px; height: 50px; background-color: rgb(175, 175, 175);border-bottom: solid gray 2px; border-left: solid gray 2px;">
+                  در جریان</td>
+                <td
+                  style="text-align: center;padding: 5px; height: 50px; background-color: rgb(175, 175, 175);border-bottom: solid gray 2px; border-left: solid gray 1px;">
+                  ثبت شده</td>
+                <td
+                  style="text-align: center;padding: 5px; height: 50px; background-color: rgb(175, 175, 175);border-bottom: solid gray 2px;border-left: solid gray 2px;">
+                  پرداخت شده</td>
+              </tr>
+
+              <tr *ngFor="let rep of reps">
+                <td
+                  style="text-align: center;padding: 5px; height: 50px; background-color: whitesmoke;border: solid gray 1px;border-left: solid gray 2px;border-right: solid gray 2px;">
+                  {{rep.name}}</td>
+                <td
+                  style="text-align: center;padding: 5px; height: 50px; background-color: whitesmoke;border: solid gray 1px;border-left: solid gray 1px;">
+                  {{rep.allc}}</td>
+                <td
+                  style="text-align: center;padding: 5px; height: 50px; background-color: whitesmoke;border: solid gray 1px;border-left: solid gray 1px;">
+                  {{rep.accc}}</td>
+                <td
+                  style="text-align: center;padding: 5px; height: 50px; background-color: whitesmoke;border: solid gray 1px;border-left: solid gray 1px;">
+                  {{rep.rejc}}</td>
+                <td
+                  style="text-align: center;padding: 5px; height: 50px; background-color: whitesmoke;border: solid gray 1px;border-left: solid gray 2px;">
+                  {{rep.duringc}}</td>
+                <td
+                  style="text-align: center;padding: 5px; height: 50px; background-color: whitesmoke;border: solid gray 1px;border-left: solid gray 1px;">
+                  {{rep.allsum}}</td>
+                <td
+                  style="text-align: center;padding: 5px; height: 50px; background-color: whitesmoke;border: solid gray 1px;border-left: solid gray 2px;">
+                  {{rep.accsum}}</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <br>
+        <br>
+        <div class="row" style="margin:auto;text-align:center">
+          <div style="margin:auto;text-align:center">
+            {{emam}}: {{hadis}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="row" style="padding: 20px; height: 20%;">
+    <div class="col-4" style="float: right; width: 50%;height: 50%;">
+      <img [src]="http:/bimeh.plus/media/images/download.jpg" style=" width: 100px; height: 100px; margin-left: 20px;">
+    </div>
+    <div class="col-4" style="margin: auto;width: 50%;height: 50%;">
+      <img [src]="http:/bimeh.plus/media/images/تدبیر_پوشش_لوگو.png" style="width: 100%;height: 100%;">
+    </div>
+    <div class="col-4" style="float: left;width: 50%;height: 50%;">
+      <img [src]="http:/bimeh.plus/media/images/image.jpg" style="width: 100%;height: 100%;">
+    </div>
+  </div> -->
+</body>
+
+</html>

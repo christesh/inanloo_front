@@ -1,0 +1,185 @@
+@import "~bootstrap/dist/css/bootstrap.css";
+input[type="file"] {
+  display: none;
+} 
+@font-face {
+    font-family: myFirstFont0;
+    src: url('../../../../assets/fonts/BNazanin.ttf');
+  }
+  @font-face {
+    font-family: myFirstFont1;
+    src: url('../../../../assets/fonts/BRoyaBd.ttf');
+  }
+  @font-face {
+    font-family: myFirstFont2;
+    src: url('../../../../assets/fonts/BYekan.ttf');
+  }
+  
+  img.profile {
+     background-image: url('../../../../assets/images/profile.png');
+     background-size:100px 100px;
+  }
+  button {
+    margin: 8px 0px;
+}
+.container {
+  position: relative;
+  width: 100%;
+  
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.overlay {
+  border-radius: 8px;
+margin:auto;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 95%;
+  opacity: 0;
+  transition: .3s ease;
+  background-color: gray;
+}
+
+.container:hover .overlay {
+  opacity: 0.2;
+}
+
+.icon {
+  color: white;
+  font-size: 100px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.fa-user:hover {
+  color: #eee;
+}
+mdb-image-modal .ng-overlay .ng-gallery-content {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 60%;
+  height: 100%;
+  z-index: 10000;
+  text-align: center;
+  overflow: hidden;
+}
+#gp{
+  font-family: myFirstFont1;
+  font-size: 14px;
+}
+#sgp{
+  font-family: myFirstFont0;
+  font-size: 12px;
+}
+.doctorinfo{
+  transition: all 2s ease-in-out;
+}
+.contractinfo1{
+  transition: all 2s ease-in-out;
+}
+.contractinfo2{
+  transition: all 2s ease-in-out;
+}
+.userinfo{
+  transition: all 2s ease-in-out;
+}
+.claiminfo{
+  transition: all 2s ease-in-out;
+}
+.combo-section {
+   display: bl;
+    margin: 24px;
+    width: 320px;
+    height: 50px;
+    font-family: myFirstFont1;
+    direction: rtl;
+}
+.signin-content {
+    display: block; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0px;
+    width: 100%; /* Full width */
+     /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    // background-color: rgb(0,0,0); /* Fallback color */
+    // background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+  
+  input[type="file"] {
+    display: none;
+}
+  .det {
+      
+      
+      
+
+      background-color: whitesmoke;
+      
+      border-radius: 8px;
+      
+      box-shadow:20px 20px 20px 10px #8888;
+      margin-right:  300px;
+      margin-left:  20px;
+      text-align: center;
+      font-family: myFirstFont2;
+      font-size: larger;
+      opacity: 1;
+    }
+    /* .signin-content {
+      padding: 60px 1rem;
+    } */
+    .full-width-input {
+      width: 100%;
+    }
+    .full-width-input{
+      font-family: myFirstFont1;
+    
+    }
+    
+  ngb-rating span {
+      font-size: 1.5rem;
+  }
+  // For Star
+.star {
+    font-size: 1.5rem;
+    color: #b0c4de;
+    // Filled Star
+    &.filled {
+      color: #FF8D60;
+    }
+    // Full Star
+    &.full {
+      color: #FF8D60;
+    }
+    // Half Star
+    .half {
+      position: absolute;
+      display: inline-block;
+      overflow: hidden;
+      color: #FF8D60;
+      font-size: 2rem;    
+    }
+  }
+.star {
+    position: relative;  
+    display: inline-block;
+    font-size: 2rem;
+    color: #d3d3d3;
+  }

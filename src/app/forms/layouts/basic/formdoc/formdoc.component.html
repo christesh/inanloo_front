@@ -1,0 +1,485 @@
+<!-- <div>
+    <div *ngIf="adddetail">
+        <form class="form">
+            <div class="form-body">
+                <div class="row">
+                     <div *ngIf="printgetdoc" style="margin: auto; text-align: center;">
+                        <button type="button" class="btn btn-raised btn-primary"
+                            (click)="printPage()">
+                            <i class="fa fa-check-square-o"></i>  چاپ رسید پرونده
+                        </button>
+                         <app-printgetdoc *ngIf="showprint">
+                        </app-printgetdoc> 
+                    </div> 
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <ng-select [items]="items" [multiple]="true" bindLabel="subserv"
+                            groupBy="serv" [selectableGroup]="true"
+                            [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            bindValue="id" (change)="getValues()"
+                            [(ngModel)]="selectedsvr"
+                            style="direction: rtl;text-align: right; width:100%; margin: auto;"
+                            id="sgp" [ngModelOptions]="{standalone: true}">
+                            <ng-template ng-optgroup-tmp let-item="item"
+                                let-item$="item$" let-index="index">
+                                <div
+                                    style=" font-size: larger;color: darkblue;height: 30px;">
+                                    {{item.serv }}
+                                </div>
+                            </ng-template>
+                            <ng-template ng-option-tmp let-item="item" let-item$="item$"
+                                let-index="index" id="sgp">
+                                <div style="padding-right: 10px;">
+                                    <input id="item-{{index}}" type="checkbox"
+                                        [ngModel]="item$.selected" id="sgp"
+                                        [ngModelOptions]="{standalone: true}" />
+                                    {{item.subserv}}
+                                </div>
+                            </ng-template>
+                        </ng-select>
+                    </div>
+                </div>
+
+                <div *ngIf="selectedsvrf">
+                    <table
+                        style="width:95%; direction: rtl;text-align: right; margin: auto;">
+                        <thead>
+                            <tr
+                                style="background-color:rgb(207, 207, 207) ; border:solid gray 1px;text-align: center;">
+                                <th style="border-left:solid gray 1px; width: 100px;">
+                                    <div>
+                                        شرح خدمت
+                                    </div>
+                                </th>
+                                <th style="border-left:solid gray 1px; width: 100px;">
+                                    <div>
+                                        مبلغ درخواستی
+                                    </div>
+                                </th>
+                                <th style="border-left:solid gray 1px; width: 100px;">
+                                    <div>
+                                        کسورات
+                                    </div>
+                                </th>
+                                <th style="border-left:solid gray 1px; width: 100px;">
+                                    <div>
+                                        مبلغ مورد تایید
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let ss1 of ss;let indexOfelement=index;"
+                                style=" padding:15px; border-bottom:solid  rgb(121, 124, 131) 1px;">
+                                <td
+                                    style="border-left:solid gray 1px;border-right:solid gray 1px;text-align: center;">
+                                    <div
+                                        style=" margin:auto;text-align: center;border-radius: 4px; background-color: rgb(182, 252, 246);margin: 5px;padding: 5px; cursor: context-menu;">
+                                        {{ss1.name}}
+                                    </div>
+                                </td>
+                                <td
+                                    style="border-left:solid gray 1px;text-align: center;margin:auto">
+                                    <div>
+
+                                        <input type="text" name="covrage"
+                                            style="width: 100px;"
+                                            placeholder="هزینه درخواستی"
+                                            [(ngModel)]="costofsvr[indexOfelement]"
+                                            (keypress)="numberOnly($event)"
+                                            [ngModelOptions]="{standalone: true}"
+                                            (change)="costchange(indexOfelement)" required>
+                                    </div>
+                                </td>
+                                <td
+                                    style="border-left:solid gray 1px;text-align: center;margin:auto">
+                                    <div>
+                                        <input type="text" name="covrage"
+                                            style="width: 100px;" placeholder="کسورات"
+                                            [(ngModel)]="fransvr[indexOfelement]"
+                                            (keypress)="numberOnly($event)"
+                                            [ngModelOptions]="{standalone: true}"
+                                            (change)="franchange(indexOfelement)" required>
+
+                                    </div>
+                                </td>
+                                <td
+                                    style="border-left:solid gray 1px;text-align: center;margin:auto">
+                                    <div>
+
+                                        <input type="text" name="covrage"
+                                            style="width: 100px;"
+                                            placeholder="هزینه مورد تایید"
+                                            [(ngModel)]="acsvr[indexOfelement]"
+                                            [ngModelOptions]="{standalone: true}"
+                                            (keypress)="notchange($event)"
+                                            (change)="acchange()" required>
+
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+                <p> وضعیت :<select id="status" name="s" class="form-control"
+                        style="width: 70%;"
+                        (change)="changestatus($event.target.value)">
+                        <option selected="{{status}}" disabled=""
+                            style="color: darkviolet;">وضعیت فعلی :
+                            {{status}}
+                        </option>
+
+                        <option value="1">در انتظار بررسی</option>
+                        <option value="2">انتظار دریافت اصل مدارک</option>
+                        <option value="3">نقص در مدارک</option>
+                        <option value="4">ارزیابی و کارشناسی مبلغ</option>
+                        <option value="5">ارسال به مالی</option>
+                        <option value="6">عودت داده شد</option>
+                        <option value="7">پرداخت شده</option>
+                    </select>
+                <p> مبلغ مورد پذیرش : <br />
+                    <input type="text" name="accinvoice" style="width: 50%;"
+                        id="accinvoice" [(ngModel)]="accinv"
+                        [ngModelOptions]="{standalone: true}"></p>
+                <p> توضیحات :<br>
+                    <textarea ng-model="des" rows="5" [(ngModel)]="result"
+                        [ngModelOptions]="{standalone: true}"
+                        style="width: 80%;"></textarea>
+                </p>
+
+            </div>
+        </form>
+    </div>
+    
+</div> -->
+<div>
+    <div class="row" style="direction: rtl;">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title" id="from-actions-top-left" style="font-family: myFirstFont1;"> ثبت هزینه
+                        {{docsname.subsvr}}</h4>
+                    <!-- <div class="alert alert-info" role="alert" style="font-family: myFirstFont0;">
+                    <strong>اقدامات فرم در سمت چپ بالا.</strong>
+                </div> -->
+
+                </div>
+                <div class="card-content" style="font-family: myFirstFont0;">
+                    <div class="px-3">
+                        <form class="form">
+                            <div class="form-actions top">
+                                <button type="button" class="btn btn-raised btn-warning mr-1" (click)="closeModal()">
+                                    <i class="ft-x"></i> انصراف
+                                </button>
+                                <button *ngIf="showsave" type="button" class="btn btn-raised btn-primary"
+                                    (click)="save()">
+                                    <i class="fa fa-check-square-o"></i> ذخیره
+                                </button>
+                            </div>
+
+                            <div class="form-body">
+                                <h4 class="form-section"><i class="ft-user"></i> اطلاعات ویزیت</h4>
+                                <div class="row">
+                                    <div class="form-group col-md-6 mb-2">
+                                        <label for="projectinput1">تاریخ ویزیت</label>
+                                        <br>
+                                        <dp-date-picker id="projectinput2" class="form-control"
+                                            style="border: solid 0px; font-family: myFirstFont0;" dir="rtl"
+                                            [(ngModel)]="dateObject" mode="day" placeholder="تاریخ" theme="dp-material"
+                                            [ngModelOptions]="{standalone: true}">
+                                        </dp-date-picker>
+                                    </div>
+                                    <div class="form-group col-md-6 mb-2">
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-6 mb-2">
+                                        <label for="projectinput3">مقدار پرداختی</label>
+                                        <input type="text" id="projectinput3" class="form-control" placeholder="هزینه"
+                                            [(ngModel)]="invoiceval" name="email">
+                                    </div>
+
+                                </div>
+
+                                <!-- <button type="button" class="btn btn-raised btn-warning mr-1" (click)="save()">
+                                    <i class="ft-x"></i> ارسال تصاویر
+                                </button> -->
+                                <button type="button" class="btn btn-raised btn-warning mr-1" (click)="open(doctor)">
+                                    انتخاب دکتر
+                                </button>
+                                <div *ngIf="selecteddrf1">
+
+                                    <div class="continer"
+                                        style="border-radius: 4px; border: solid whitesmoke 1px; padding: 10px; direction: rtl;">
+                                        <div class="row">
+                                            <div class="col-sm-3"
+                                                style="border-radius: 4px; border: solid whitesmoke 1px; margin: 10px; text-align: center;">
+                                                <img [src]="pic" style="width: 90%; ">
+                                            </div>
+                                            <div class="col-sm-8">
+                                                <div class="row">
+                                                    <a style="padding: 5px;">نام دکتر: {{doctorfullname}} </a>
+                                                </div>
+                                                <div class="row">
+                                                    <a style="padding: 5px;">تخصص: {{specialty}} </a>
+                                                </div>
+                                                <div class="row">
+                                                    <a style="padding: 5px;">تحت قرارداد: {{contracted}} </a>
+                                                </div>
+                                                <div class="row">
+                                                    <a style="padding: 5px;">کد نظام پزشکی: {{medical_id}}</a>
+                                                </div>
+                                                <div class="row">
+                                                    <a style="padding: 5px;">تعرفه: {{mt}}</a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-12 mb-2">
+                                        <div class="form-group col-12 mb-2" style="direction: rtl;text-align: right;">
+                                            <label> لطفا تصاویر مدارک مروبط به هزینه را انتخاب کنید</label>
+                                            <br />
+                                            <label for="file-upload" class="btn btn-raised btn-primary"
+                                                style="cursor: pointer;">
+                                                <i class="fa fa-check-square-o"></i>انتخاب فایل
+                                            </label>
+                                            <input id="file-upload" type='file' (change)="onSelectFile($event)"
+                                                resize-max-height="300" resize-max-width="250" resize-quality="0.7"
+                                                multiple>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-12 mb-2">
+                                        <div class="progress" *ngIf="progress">
+                                            <div class="progress-bar" [style.width]="progress + '%'">{{progress}}%</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div *ngFor="let url of urls" style="margin:auto; text-align: center;">
+
+                                        <a style="font-size: 10px;padding-left: 4px;padding-right: 4px; border-radius: 4px;border: red solid 1px;text-align: center; color: red;"
+                                            (click)="deleteimg(url)">حذف</a>
+
+                                        <br>
+                                        <img [src]="url" height="200" style="margin:10px;">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<ng-template #doctor let-c="close" let-d="dismiss" style="direction: rtl; text-align: right;">
+    <div class="modal-header px-4" style="direction: rtl; text-align: right;">
+        <h4 class="modal-title"> انتخاب دکتر </h4>
+    </div>
+    <div class="modal-body px-4">
+        <div class="row text-right justify-content-md-center">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="alert alert-info" role="alert">
+                            <strong> لطفا نام دکتر خود را با توجه به کد نظام پزشکی انتخاب فرمائید. در صورتی که نام دکتر
+                                شما در لیست وجود مدارد، آنرا اضافه کنید. </strong>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="px-3">
+                            <form class="form">
+                                <div class="form-body">
+                                    <div class="row" style="direction: rtl; text-align: right;">
+                                        <div class="form-group col-12 mb-2">
+                                            <label for="eventInput2"> انتخاب دکتر</label>
+                                            <div class="row">
+                                                <div class="col-7">
+                                                    <div class="related-widget-wrapper">
+
+                                                        <ng-select [items]="doctors" bindLabel="name family"
+                                                            [multiple]="false" [closeOnSelect]="true"
+                                                            bindValue="medical_id" (change)="getdoctor()"
+                                                            [(ngModel)]="selecteddr"
+                                                            [ngModelOptions]="{standalone: true}"
+                                                            style="direction: rtl;text-align: right; width:100%; margin: auto;"
+                                                            id="sgp">
+                                                            <ng-template ng-label-tmp let-item="item">
+                                                                <b id="item-{{index}}" id="sgp" style="margin:10px">
+                                                                    {{item.name }} {{item.family}} - {{item.medical_id}}
+                                                                </b>
+                                                            </ng-template>
+                                                            <ng-template ng-option-tmp let-item="item" let-item$="item$"
+                                                                let-index="index" id="sgp">
+                                                                <img height="35" width="35" [src]="item.picture" />
+                                                                <b id="item-{{index}}" id="sgp" style="margin:10px">
+                                                                    {{item.name }} {{item.family}} - {{item.medical_id}}
+                                                                </b>
+                                                            </ng-template>
+                                                        </ng-select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-4">
+                                                    <button type="button" class="btn btn-raised btn-primary"
+                                                        (click)="open(createdr)">
+                                                        <i class="fa fa-check-square-o"></i> اضافه کردن دکتر
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="selecteddrf">
+
+                                        <div class="continer"
+                                            style="border-radius: 4px; border: solid whitesmoke 1px; padding: 10px; direction: rtl;">
+                                            <div class="row">
+                                                <div class="col-sm-3"
+                                                    style="border-radius: 4px; border: solid whitesmoke 1px; margin: 10px; text-align: center;">
+                                                    <img [src]="pic" style="width: 90%; ">
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    <div class="row">
+                                                        <a style="padding: 5px;">نام: {{doctorfullname}} </a>
+                                                    </div>
+                                                    <div class="row">
+                                                        <a style="padding: 5px;">تخصص: {{specialty}} </a>
+                                                    </div>
+                                                    <div class="row">
+                                                        <a style="padding: 5px;">تحت قرارداد: {{contracted}} </a>
+                                                    </div>
+                                                    <div class="row">
+                                                        <a style="padding: 5px;">کد نظام پزشکی: {{medical_id}}</a>
+                                                    </div>
+                                                    <div class="row">
+                                                        <a style="padding: 5px;">تعرفه: {{mt}}</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-actions center">
+                                        <button type="button" class="btn btn-raised btn-warning mr-1"
+                                            (click)="d('Cross click')">
+                                            <i class="ft-x"></i> انصراف
+                                        </button>
+                                        <button type="button" class="btn btn-raised btn-primary"
+                                            (click)="c('Cross click')">
+                                            <i class="fa fa-check-square-o"></i> انتخاب
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #createdr let-c="close" let-d="dismiss" style="direction: rtl; text-align: right;">
+    <div class="modal-header px-4" style="direction: rtl; text-align: right;">
+        <h4 class="modal-title"> ورود اظلاعات دکتر </h4>
+    </div>
+    <div class="modal-body px-4">
+        <div class="row text-right justify-content-md-center">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="alert alert-info" role="alert">
+                            <strong> لطفا اطلاعات دکتر خود را به همراه کد نظام پزشکی به دقت وارد نمائید. </strong>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="px-3">
+                            <form class="form">
+                                <div class="form-body">
+                                    <div class="row" style="direction: rtl; text-align: right;">
+                                        <div class="form-group col-12 mb-2">
+                                            <label for="eventInput2"> ورود اطلاعات دکتر</label>
+                                            <div class="row">
+                                                <div class="form-group col-12 mb-2">
+                                                    <label for="eventInput1">نام دکتر</label>
+                                                    <input type="text" style="direction: rtl; text-align: right;"
+                                                        id="eventInput1" class="form-control" placeholder="نام"
+                                                        name="fullname" [(ngModel)]="drname"
+                                                        [ngModelOptions]="{standalone: true}">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="form-group col-12 mb-2">
+                                                    <label for="eventInput3">نام خانوادگی دکتر </label>
+                                                    <input type="text" style="direction: rtl; text-align: right;"
+                                                        id="eventInput3" class="form-control" placeholder="نام خانوادگی"
+                                                        name="company" [(ngModel)]="drfamily"
+                                                        [ngModelOptions]="{standalone: true}">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="form-group col-12 mb-2">
+                                                    <label for="eventInput3">کد نظام پزشکی </label>
+                                                    <input type="text" style="direction: rtl; text-align: right;"
+                                                        id="eventInput3" class="form-control"
+                                                        placeholder="کد نظام پزشکی" name="company" [(ngModel)]="drmid"
+                                                        [ngModelOptions]="{standalone: true}">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="form-group col-12 mb-2">
+                                                    <label for="eventInput3">مدرک </label>
+                                                    <ng-select [items]="degrees" [multiple]="false" bindLabel="title"
+                                                        [selectableGroup]="false" [selectableGroupAsModel]="false"
+                                                        [closeOnSelect]="true" bindValue="id" (change)="selectdeg()"
+                                                        [(ngModel)]="degid" [ngModelOptions]="{standalone: true}"
+                                                        style="direction: rtl;text-align: right; width:100%; margin: auto;border: solid rgb(224, 219, 219) 1px; border-radius: 4px;"
+                                                        id="sgp">
+                                                        <ng-template ng-optgroup-tmp let-item="item" let-item$="item$"
+                                                            let-index="index">
+                                                            <div
+                                                                style=" font-size: larger;color: darkblue;height: 30px;">
+                                                                {{item.title }}
+                                                            </div>
+                                                        </ng-template>
+                                                    </ng-select>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="form-group col-12 mb-2">
+                                                    <label for="eventInput3">تخصص</label>
+                                                    <input type="text" style="direction: rtl; text-align: right;"
+                                                        id="eventInput3" class="form-control" placeholder="تخصص"
+                                                        name="company" [(ngModel)]="drsp"
+                                                        [ngModelOptions]="{standalone: true}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-actions center">
+                                    <button type="button" class="btn btn-raised btn-warning mr-1"
+                                        (click)="d('Cross click')">
+                                        <i class="ft-x"></i> انصراف
+                                    </button>
+                                    <button type="button" class="btn btn-raised btn-primary" (click)="c('Cross click')">
+                                        <i class="fa fa-check-square-o"></i> ذخیره
+                                    </button>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

@@ -1,0 +1,277 @@
+<!-- Basic form layout section start -->
+<!-- <section id="basic-form-layouts"> -->
+<div class="row text-right justify-content-md-center" style="direction: rtl;">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header pb-2">
+        <h4 class="card-title" id="bordered-layout-card-center">ثبت نام</h4>
+        <p class="mb-0">
+          ضمن سلام و خیر مقدم، شما برای اولین بار وارد پرتال بیمه پلاس شده اید. در این مرحله می توانید بیمه درمان
+          تکمیلی و حساب کاربری خود را فعال نمائید. توجه فرمائید در صورت عدم تمایل، با انتخاب گزینه
+          <a style="color: red;">"خیر، تمایل ندارم"</a>
+          بیمه
+          درمان تکمیلی شما غیر فعال خواهد شد .بدیهی است درصورت انتخاب گزینه بله، از این تاریخ بیمه درمان تکمیلی شما تا
+          پایان تاریخ قرارداد انتخابی فعال خواهد شد و حق بیمه به صورت ماهانه از حقوق دریافتی شما کسر خواهد شد
+        </p>
+      </div>
+      <div class="card-content">
+        <div class="px-3">
+
+          <form class="form form-horizontal form-bordered">
+            <div class="form-body">
+              <div class="form-group row">
+                <div class="row">
+                  <div class="form-group col-12 mb-2">
+                    <div class="form-group col-12 mb-2" style="direction: rtl;text-align: right;">
+                      <label> لطفا فایل تصاویر مدارک مربوط به هزینه را انتخاب کنید</label>
+                      <br />
+                      <!-- <label for="file-upload" class="btn btn-raised btn-primary" style="cursor: pointer;">
+                        <i class="fa fa-check-square-o"></i>انتخاب فایل
+                      </label>
+                      <input id="file-upload" type='file' (change)="onSelectFile($event)" multiple> -->
+                    </div>
+                  </div>
+                  <div class="form-group col-12 mb-2">
+                    <!-- <div class="progress" *ngIf="progress">
+                      <div class="progress-bar" [style.width]="progress + '%'">{{progress}}%</div>
+                    </div> -->
+                  </div>
+                </div>
+                <div class="row">
+                  <!-- <img *ngFor='let url of urls' [src]="url" height="200" style="margin:10px;"> <br /> -->
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-md-3 label-control" for="eventRegInput1">نام</label>
+                <div class="col-md-9">
+                  <input type="text" id="eventRegInput1" class="form-control" placeholder="نام" name="fullname"
+                    [ngModel]="name">
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label class="col-md-3 label-control" for="eventRegInput2">نام خانوادگی</label>
+                <div class="col-md-9">
+                  <input type="text" id="eventRegInput2" class="form-control" placeholder="نام خانوادگی" name="title"
+                    [ngModel]="family">
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label class="col-md-3 label-control" for="eventRegInput3">شرکت بیمه گذار</label>
+                <div class="col-md-9">
+                  <input type="text" id="eventRegInput3" class="form-control" placeholder="شرکت بیمه گذار"
+                    name="company" [ngModel]="companyname">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-md-3 label-control" for="eventRegInput3">انتخاب قرارداد</label>
+                <div class="col-md-6" style="border-left: white solid 0px;">
+                  <ng-select [items]="cons" [multiple]="false" bindLabel="title" [selectableGroup]="false"
+                    [selectableGroupAsModel]="false" [closeOnSelect]="true" bindValue="id" (change)="getValuescont()"
+                    [(ngModel)]="contselected" [ngModelOptions]="{standalone: true}"
+                    style="direction: rtl;text-align: right; width:100%; margin: auto;border: solid rgb(224, 219, 219) 1px; border-radius: 4px;"
+                    id="sgp">
+                    <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
+                      <div style=" font-size: larger;color: darkblue;height: 30px;">
+                        {{item.name }}
+                      </div>
+                    </ng-template>
+                  </ng-select>
+                </div>
+                <!-- <div class="col-md-3">
+                    <div *ngIf="conselect">
+                      <button type="button" class="btn btn-raised btn-primary" (click)="open(cont)">
+                        <i class="fa fa-check-square-o"></i> جزئیات قرارداد انتخابی
+                      </button>
+                    </div>
+                  </div> -->
+              </div>
+              <div class="form-group row">
+                <label class="col-md-3 label-control" for="eventRegInput3">انتخاب طرح</label>
+                <div class="col-md-6" style="border-left: white solid 0px;">
+                  <ng-select [items]="plans" [multiple]="false" bindLabel="title" [selectableGroup]="false"
+                    [selectableGroupAsModel]="false" [closeOnSelect]="true" bindValue="id" (change)="getValuespln()"
+                    [(ngModel)]="plnselected" [ngModelOptions]="{standalone: true}"
+                    style="direction: rtl;text-align: right; width:100%; margin: auto;border: solid rgb(224, 219, 219) 1px; border-radius: 4px;"
+                    id="sgp">
+                    <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
+                      <div style=" font-size: larger;color: darkblue;height: 30px;">
+                        {{item.name }}
+                      </div>
+                    </ng-template>
+                  </ng-select>
+                </div>
+                <div class="col-md-3">
+                  <div *ngIf="plnselect">
+                    <button type="button" class="btn btn-raised btn-primary" (click)="open(pln)">
+                      <i class="fa fa-check-square-o"></i> جزئیات طرح انتخابی
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label class="col-md-3 label-control" for="eventRegInput4">ایمیل</label>
+                <div class="col-md-9">
+                  <input type="email" id="eventRegInput4" class="form-control" placeholder="ایمیل" name="email"
+                    [ngModel]="email">
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label class="col-md-3 label-control" for="eventRegInput5">شماره تماس</label>
+                <div class="col-md-9">
+                  <input type="number" id="eventRegInput5" class="form-control" name="contact" placeholder="شماره تماس"
+                    [ngModel]="mobile">
+                </div>
+              </div>
+
+              <div class="form-group row last">
+                <label class="col-md-3 label-control">آیا نسبت به استفاده از خدمات بیمه درمان تکمیلی تمایل
+                  دارید؟</label>
+                <div class="col-md-9" style="text-align: right;">
+                  <div class="input-group col-md-9" style="float: right;">
+                    <div class="custom-control custom-radio d-inline-block" style="margin:10px">
+                      <input type="radio" id="customRadioInline2" checked name="customRadioInline2"
+                        class="custom-control-input">
+                      <label class="custom-control-label" for="customRadioInline2" style="color: green;">بله</label>
+                    </div>
+                    <br>
+                    <div class="custom-control custom-radio d-inline-block " style="margin:10px">
+                      <input type="radio" id="customRadioInline3" name="customRadioInline2"
+                        class="custom-control-input">
+                      <label class="custom-control-label" for="customRadioInline3" style="color: red;">خیر، تمایل
+                        ندارم</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-actions center" style="direction: ltr;">
+              <button type="button" class="btn btn-raised btn-warning mr-1" style="margin: 10px;" (click)="exit()">
+                <i class="ft-x"></i> انصراف
+              </button>
+              <button type="button" class="btn btn-raised btn-primary" style="margin: 10px;" (click)="open(changepass)">
+                <i class="fa fa-check-square-o"></i> تائید
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #pln let-c="close" let-d="dismiss"
+  style=" border-radius:  8px;direction: rtl; text-align: center; box-shadow: darkgray 8px; background-color: white; margin: 10px; text-align: center;">
+  <div class="col-sm-12" style="text-align: center;">
+    <br>
+    <h6 style="margin: 10px;">جزئیات {{planti}} </h6>
+    <table style="width:95%; direction: rtl;text-align: right; margin: auto;">
+      <thead>
+        <tr style="background-color:rgb(207, 207, 207) ; border:solid gray 1px">
+          <th style="border-left:solid gray 1px;">
+            <div style=" padding:15px;  text-align: center;">
+              تعهد
+            </div>
+          </th>
+          <th style="border-left:solid gray 1px;">
+            <div style=" padding:15px;  text-align: center;">
+              خدمات
+            </div>
+          </th>
+          <th>
+            <div style=" padding:15px;  text-align: center;">
+              حداکثر پوشش
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let t of table" style=" border:solid gray 1px">
+          <td style="border-left:solid gray 1px;">
+            <div style=" padding:15px; ">
+              {{t.svr}}
+            </div>
+          </td>
+
+          <td style="border-left:solid gray 1px;">
+            <div style=" padding:15px; ">
+              <a *ngFor="let s of t.subsvr">
+                <a style="border-radius: 4px; background-color: rgb(182, 252, 246);margin: 5px;padding: 5px;">
+                  {{s.subver}} </a>
+              </a>
+            </div>
+          </td>
+          <td>
+            <div style=" padding:15px; ">
+              {{t.cov}}
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <div class="form-actions center">
+      <button type="button" class="btn btn-raised btn-warning mr-1" (click)="d('Cross click')">
+        <i class="ft-x"></i> بستن
+      </button>
+
+    </div>
+  </div>
+
+</ng-template>
+<ng-template #cont let-c="close" let-d="dismiss" style="direction: rtl; text-align: right;">
+  <div class="form-actions center">
+    <button type="button" class="btn btn-raised btn-warning mr-1" (click)="d('Cross click')">
+      <i class="ft-x"></i> انصراف
+    </button>
+    <button type="button" class="btn btn-raised btn-primary" (click)="c('Cross click')">
+      <i class="fa fa-check-square-o"></i> ذخیره
+    </button>
+  </div>
+</ng-template>
+<ng-template #changepass let-c="close" let-d="dismiss" style="direction: rtl; text-align: right;">
+  <div class="col-md-12" style="direction: rtl; text-align: right;">
+    <div class="card">
+      <div class="card-header pb-2">
+        <h4 class="card-title" id="bordered-layout-card-center"> تغییر گذرواژه</h4>
+        <p class="mb-0">
+          برای تکمیل فرآیند ثبت نام باید گذرواژه ای جدید برای حساب کاربری خود انتخاب نمائید.
+        </p>
+      </div>
+      <div class="card-content">
+        <form class="form form-horizontal form-bordered">
+          <div class="form-body">
+            <div class="form-group row">
+              <label class="col-md-3 label-control" for="eventRegInput1">گذرواژه جدید</label>
+              <div class="col-md-9">
+                <input type="password" id="pass1" class="form-control" placeholder="گذارواژه جدید" name="fullname"
+                  [ngModel]="pass1">
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label class="col-md-3 label-control" for="eventRegInput2">تکرار گذرواژه</label>
+              <div class="col-md-9">
+                <input type="password" id="pass2" class="form-control" placeholder="تکرار گذرواژه" name="title"
+                  [ngModel]="pass2">
+              </div>
+            </div>
+          </div>
+        </form>
+        <div class="form-actions center" style="margin: auto; text-align: center; direction: rtl;">
+          <button type="button" class="btn btn-raised btn-warning mr-1" (click)="d('Cross click')">
+            <i class="ft-x"></i> انصراف
+          </button>
+          <button type="button" class="btn btn-raised btn-primary" (click)="c('Cross click')">
+            <i class="fa fa-check-square-o"></i> ذخیره
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<!-- </section> -->
+<!-- // Basic form layout section end -->

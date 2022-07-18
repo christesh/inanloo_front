@@ -1,0 +1,1143 @@
+<div class="email-application">
+  <div class="row" style="height: 500px;">
+    <div class="col-sm-2"
+      style="float: right; border-radius:  8px; box-shadow: darkgray 8px;  background-color: white; height: 100%; margin: 10px;">
+
+      <div class="email-app-menu">
+        <div class="form-group form-group-compose text-center">
+          <button type="button" class="btn btn-raised btn-danger btn-block my-2" (click)="open(content)">
+            <i class="ft-mail"></i> ایجاد قرارداد جدید</button>
+        </div>
+        <h6 class="text-muted text-bold-500 mb-1 text-left">قرارداد ها</h6>
+        <div class="list-group list-group-messages">
+          <div *ngFor="let con of cons">
+            <a class="list-group-item active no-border text-left" (click)="GetEmailsByType($event, [con.id])"
+              style="margin-bottom: 10px;">
+              <i class="ft-inbox mr-1 pr-1 float-left"></i> {{con.title}}
+              <!-- <span class="badge badge-dark badge-pill float-right">8</span> -->
+            </a>
+          </div>
+        </div>
+      </div>
+
+
+      
+
+    </div>
+    <div class="col-sm-3" *ngIf="conselect"
+      style="float: right; border-radius:  8px; box-shadow: darkgray 8px; background-color: white; margin: 10px;">
+      <div id="users-list">
+        <div class="list-group">
+          <div class="users-list-padding">
+            <br>
+            <h6 class="text-muted text-bold-500 mb-1 text-left" style="margin: 10px;"> طرح های : {{conti}}</h6>
+            <a *ngFor="let plan of plans">
+              <span class="media" style="margin: 10px; border-radius: 4px; background-color: whitesmoke;"
+                (click)="DisplayMessage($event, [plan.id],[plan.title])">
+                <span
+                  style="width: 75px; height: 75px; text-align: center;font-size: 14px;border-radius: 4px; background-color: teal; margin:10px;">
+                  <strong style="margin: auto;">{{plan.title}}</strong>
+                </span>
+
+                <div class="media-body text-left" style="padding: 10px;">
+                  <h6 Class="list-group-item-heading text-bold-400">
+                    مبلغ بیمه : {{plan.permium | number:0}}
+                  </h6>
+                  <span class="float-left">
+                    <span Class="font-small-2 primary">
+                      بازه پرداخت: {{plan.paymentmode}}</span>
+                  </span>
+
+                </div>
+              </span>
+            </a>
+
+          </div>
+          <div style="margin:auto; text-align: centers;">
+            <a *ngIf="plans.length === 0" style=" margin: auto; color: orange; text-align: center;">برای این قرارداد
+              هنوز طرحی اختصاص داده نشده است</a>
+          </div>
+          <div style="margin:auto ; text-align: centers; padding: 10px;">
+            <button type="button" class="btn btn-raised btn-primary" (click)="open(selplns)">
+              <i class="fa fa-check-square-o"></i> ایجاد طرح جدید از طریق فایل اکسل
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6" *ngIf="plnselectn"
+      style="float: right; border-radius:  8px; box-shadow: darkgray 8px; background-color: white; margin: 10px; text-align: center;">
+      <br>
+      <div style="margin:auto; text-align: centers;">
+        <a style=" margin: auto; color: orange; text-align: center;">برای این قرارداد
+          هنوز تعهدی اختصاص داده نشده است</a>
+      </div>
+      <div style="margin:auto ; text-align: centers; padding: 10px;">
+        <button type="button" class="btn btn-raised btn-primary" (click)="open(selservi)">
+          <i class="fa fa-check-square-o"></i> انتساب تعهد جدید
+        </button>
+      </div>
+    </div>
+    <div class="col-sm-6" *ngIf="plnselect"
+      style="float: right; border-radius:  8px; box-shadow: darkgray 8px; background-color: white; margin: 10px; text-align: center;">
+      <br>
+      <h6 class="text-muted text-bold-500 mb-1 text-left" style="margin: 10px;">جزئیات {{planti}} </h6>
+      <table style="width:95%; direction: rtl;text-align: right; margin: auto;">
+        <thead>
+          <tr style="background-color:rgb(207, 207, 207) ; border:solid gray 1px">
+            <th style="border-left:solid gray 1px;">
+              <div
+                style=" padding:15px; text-align: center;">
+                تعهد
+              </div>
+            </th>
+            <th style="border-left:solid gray 1px;">
+              <div
+                style=" padding:15px; text-align: center;">
+                خدمات
+              </div>
+            </th>
+            <th style="border-left:solid gray 1px;">
+              <div
+                style=" padding:15px; text-align: center;">
+                حداکثر پوشش
+              </div>
+            </th>
+            <th style="border-left:solid gray 1px;">
+              <div
+                style=" padding:15px; text-align: center;">
+                فرانشیز
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let t of table" style=" border:solid gray 1px">
+
+            <td style="border-left:solid gray 1px;">
+              <div style=" padding:15px;">
+                {{t.svr}}
+              </div>
+            </td>
+
+            <td style="border-left:solid gray 1px;">
+              <div style=" padding:15px;">
+                <a *ngFor="let s of t.subsvr">
+                  <a style="border-radius: 4px; background-color: rgb(182, 252, 246);margin: 5px;padding: 5px;">
+                    {{s.subver}} </a>
+                </a>
+              </div>
+            </td>
+            <td style="border-left:solid gray 1px;">
+              <div style=" padding:15px; font-family: 'iransans'">
+                <div *ngIf="isnumber">
+                    {{t.cov | number:0}}
+                </div>
+                <div *ngIf="isnotnumber">
+                    {{t.cov}}
+                </div>
+              </div>
+            </td>
+            <td>
+              <div style=" padding:15px; font-family: 'iransans'">
+                {{t.fran}}%
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- <div style="margin:auto ; text-align: centers; padding: 10px;">
+        <button type="button" class="btn btn-raised btn-primary" (click)="open(servi)">
+          <i class="fa fa-check-square-o"></i> انتساب تعهد جدید
+        </button>
+      </div> -->
+    </div>
+  </div>
+
+  <ng-template #content let-c="close" let-d="dismiss" style="direction: rtl; text-align: right;">
+    <div class="modal-header px-4" style="direction: rtl; text-align: right;">
+      <h4 class="modal-title">ثبت قرارداد</h4>
+
+    </div>
+    <div class="modal-body px-4">
+      <div class="row text-right justify-content-md-center">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header">
+              <!-- <h4 class="card-title" id="from-actions-top-bottom-center"> ثبت قرارداد</h4> -->
+              <div class="alert alert-info" role="alert">
+                <strong> لطفا کلیه موارد زیر را تکمیل فرمائید </strong>
+              </div>
+
+
+            </div>
+            <div class="card-content">
+              <div class="px-3">
+                <form class="form">
+                  <div class="form-body">
+                    <div class="row">
+                      <div class="form-group col-12 mb-2">
+                        <label for="eventInput1">عنوان قرارداد</label>
+                        <input type="text" style="direction: rtl; text-align: right;" id="eventInput1"
+                          class="form-control" placeholder="عنوان قرارداد" name="fullname" [(ngModel)]="conttitle"
+                          [ngModelOptions]="{standalone: true}">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-12 mb-2">
+                        <label for="eventInput3">شماره قرارداد</label>
+                        <input type="text" style="direction: rtl; text-align: right;" id="eventInput3"
+                          class="form-control" placeholder="شماره قرارداد" name="company" [(ngModel)]="contno"
+                          [ngModelOptions]="{standalone: true}">
+                      </div>
+                    </div>
+                    <div class="row" style="direction: rtl; text-align: right;">
+                      <div class="form-group col-12 mb-2">
+                        <label for="eventInput2"> طرف قرارداد (بیمه گذار)</label>
+                        <div class="row">
+                          <div class="col-7">
+                            <div class="related-widget-wrapper">
+                              <ng-select [items]="companies" [multiple]="false" bindLabel="name"
+                                [selectableGroup]="true" [selectableGroupAsModel]="true" [closeOnSelect]="true"
+                                bindValue="id" (change)="getValues1()" [(ngModel)]="contpwselected"
+                                [ngModelOptions]="{standalone: true}"
+                                style="direction: rtl;text-align: right; width:100%; margin: auto;border: solid rgb(224, 219, 219) 1px; border-radius: 4px;"
+                                id="sgp">
+                                <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
+                                  <div style=" font-size: larger;color: darkblue;height: 30px;">
+                                    {{item.name }}
+                                  </div>
+                                </ng-template>
+
+                              </ng-select>
+
+                            </div>
+                          </div>
+                          <div class="col-4">
+                            <button type="button" class="btn btn-raised btn-primary" (click)="open(pw)">
+                              <i class="fa fa-check-square-o"></i> ایجاد بیمه گذار جدید
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row" style="direction: rtl; text-align: right;">
+                      <div class="form-group col-12 mb-2">
+                        <label for="eventInput2"> شرکت بیمه گر</label>
+                        <div class="row">
+                          <div class="col-7">
+                            <div class="related-widget-wrapper">
+                              <ng-select [items]="insurers" [multiple]="false" bindLabel="name" [selectableGroup]="false"
+                                [selectableGroupAsModel]="false" [closeOnSelect]="true" bindValue="id"
+                                (change)="getValues()" [(ngModel)]="continsselected"  [ngModelOptions]="{standalone: true}"
+                                style="direction: rtl;text-align: right; width:100%; margin: auto;border: solid rgb(224, 219, 219) 1px; border-radius: 4px;"
+                                id="sgp">
+                                <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
+                                  <div style=" font-size: larger;color: darkblue;height: 30px;">
+                                    {{item.name }}
+                                  </div>
+                                </ng-template>
+
+                              </ng-select>
+                            </div>
+                          </div>
+                          <div class="col-4">
+                            <button type="button" class="btn btn-raised btn-primary" (click)="open(insu)">
+                              <i class="fa fa-check-square-o"></i> ایجاد بیمه گر جدید
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-12 mb-2">
+                        <label for="issueinput3">تاریخ ثبت قرارداد</label>
+                        <br>
+                        <dp-date-picker id="projectinput2" class="form-control"
+                          style="border: solid rgb(224, 219, 219) 1px; border-radius: 4px; font-family: myFirstFont0;"
+                          dir="rtl" [(ngModel)]="rejcondate" mode="day" placeholder="تاریخ" theme="dp-material"
+                          [ngModelOptions]="{standalone: true}">
+                        </dp-date-picker>
+                      </div>
+                    </div>
+                    <div class="row" style="direction: rtl; text-align: right;">
+                      <div class="form-group col-md-6 mb-2">
+                        <label for="issueinput3">تاریخ شروع قرارداد</label>
+                        <br>
+                        <dp-date-picker id="projectinput2" class="form-control"
+                          style="border: solid rgb(224, 219, 219) 1px; border-radius: 4px; font-family: myFirstFont0;"
+                          dir="rtl" [(ngModel)]="startcondate" mode="day" placeholder="تاریخ" theme="dp-material"
+                          [ngModelOptions]="{standalone: true}">
+                        </dp-date-picker>
+                      </div>
+                      <div class="form-group col-md-6 mb-2">
+                        <label for="issueinput4">تاریخ پایان قرارداد</label>
+                        <br>
+                        <dp-date-picker id="projectinput2" class="form-control"
+                          style="border: solid rgb(224, 219, 219) 1px; border-radius: 4px;font-family: myFirstFont0;"
+                          dir="rtl" [(ngModel)]="endcondate" mode="day" placeholder="تاریخ" theme="dp-material"
+                          [ngModelOptions]="{standalone: true}">
+                        </dp-date-picker>
+                      </div>
+                    </div>
+                    <div class="row" style="direction: rtl; text-align: right;">
+                      <div class="form-group col-12 mb-2">
+                        <label for="eventInput2"> انتخاب طرح</label>
+                        <div class="row">
+                          <div class="col-7">
+                            <div class="related-widget-wrapper">
+                              <ng-select [items]="allplans" [multiple]="true" bindLabel="title"
+                                [selectableGroup]="false" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                bindValue="id" (change)="getValuespln()" [(ngModel)]="conplnselected"
+                                [ngModelOptions]="{standalone: true}"
+                                style="direction: rtl;text-align: right; width:100%; margin: auto; border: solid rgb(224, 219, 219) 1px; border-radius: 4px;"
+                                id="sgp">
+                                <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
+                                  <div style=" font-size: larger;color: darkblue;height: 30px;">
+                                    {{item.title }}
+                                  </div>
+                                </ng-template>
+
+                              </ng-select>
+                            </div>
+                          </div>
+                          <div class="col-4">
+                            <button type="button" class="btn btn-raised btn-primary" (click)="open(plns)">
+                              <i class="fa fa-check-square-o"></i> ایجاد طرح جدید
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row" style="direction: rtl; text-align: right;">
+                      <div class="col-6">
+                        <button type="button" class="btn btn-raised btn-primary" (click)="open(plns)">
+                          <i class="fa fa-check-square-o"></i>  ایجاد طرح جدید از طریق فایل اکسل
+                        </button>
+                      </div>
+                    </div>
+                    <div *ngIf="selectedplnf">
+                      <table style="width:95%; direction: rtl;text-align: right; margin: auto;">
+                        <thead>
+                          <tr>
+                            <th>
+                              <div
+                                style="background-color:rgb(207, 207, 207) ; padding:15px;border-top:solid  rgb(121, 124, 131) 1px; border-bottom:solid  rgb(121, 124, 131) 1px; text-align: center;">
+                                نام طرح
+                              </div>
+                            </th>
+                            <th>
+                              <div
+                                style="background-color:rgb(207, 207, 207) ; padding:15px;border-top:solid  rgb(121, 124, 131) 1px; border-bottom:solid  rgb(121, 124, 131) 1px; text-align: center;">
+                                هزینه طرح
+                              </div>
+                            </th>
+                            <th>
+                              <div
+                                style="background-color:rgb(207, 207, 207) ; padding:15px;border-top:solid  rgb(121, 124, 131) 1px; border-bottom:solid  rgb(121, 124, 131) 1px; text-align: center;">
+                                روش پرداخت
+                              </div>
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let t of plntable;let indexOfelement=index;"
+                            style=" padding:15px; border-bottom:solid  rgb(121, 124, 131) 1px;">
+                            <td>
+                              <div
+                                style="margin:auto;text-align: center;border-radius: 4px; background-color: rgb(182, 252, 246);margin: 5px;padding: 5px; cursor: context-menu;">
+                                {{t.title}}
+                              </div>
+                            </td>
+                            <td>
+                              <div style="margin:auto;text-align: center;">
+                                <input type="text" name="covrage" placeholder="هزینه طرح"
+                                  [(ngModel)]="permium[indexOfelement]" [ngModelOptions]="{standalone: true}" required>
+                              </div>
+                            </td>
+                            <td>
+                              <div style="margin:auto;text-align: center;">
+                                <ng-select [items]="paymd" [multiple]="false" bindLabel="title"
+                                  [selectableGroup]="false" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                  bindValue="id" (change)="getValuespay()" [(ngModel)]="payduring[indexOfelement]"
+                                  [ngModelOptions]="{standalone: true}"
+                                  style="direction: rtl;text-align: right; width:80%; margin: auto; border: solid rgb(224, 219, 219) 1px; border-radius: 4px;"
+                                  id="sgp">
+                                  <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
+                                    <div style=" font-size: larger;color: darkblue;height: 30px;">
+                                      {{item.title }}
+                                    </div>
+                                  </ng-template>
+                                </ng-select>
+                                
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <br>
+                  <div class="row">
+                    <div class="form-group col-12 mb-2" style="direction: rtl;text-align: right;">
+                      <label> لطفا فایل تصویر قرارداد را انتخاب کنید</label>
+                      <br />
+                      <label for="file-upload" class="btn btn-raised btn-primary" style="cursor: pointer;">
+                        <i class="fa fa-check-square-o"></i>انتخاب فایل
+                      </label>
+                      <input id="file-upload" type='file' (change)="contSelectFile($event)" multiple>
+                    </div>
+                    <div class="form-group col-12 mb-2">
+                      <div class="contprogress" *ngIf="conprogress">
+                        <div class="progress-bar" [style.width]="progress + '%'">{{contprogress}}%</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <img *ngFor='let url of conturls' [src]="url" height="200" style="margin:10px;"> <br />
+                  </div>
+                  <div class="form-actions center">
+                    <button type="button" class="btn btn-raised btn-warning mr-1" (click)="d('Cross click')">
+                      <i class="ft-x"></i> انصراف
+                    </button>
+                    <button type="button" class="btn btn-raised btn-primary" (click)="c('Cross click')">
+                      <i class="fa fa-check-square-o"></i> ذخیره
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template #pw let-c="close" let-d="dismiss" style="direction: rtl; text-align: right;">
+    <div class="modal-header px-4" style="direction: rtl; text-align: right;">
+      <h4 class="modal-title">ایجاد بیمه گذار جدید</h4>
+    </div>
+    <div class="modal-body px-4">
+      <div class="row text-right justify-content-md-center">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header">
+              <div class="alert alert-info" role="alert">
+                <strong> لطفا کلیه موارد زیر را تکمیل فرمائید </strong>
+              </div>
+            </div>
+            <div class="card-content">
+              <div class="px-3">
+                <form class="form">
+                  <div class="form-body">
+                    <div class="row">
+                      <div class="form-group col-12 mb-2">
+                        <label for="eventInput1">نام سازمان/شرکت</label>
+                        <input type="text" style="direction: rtl; text-align: right;" id="eventInput1"
+                          class="form-control" placeholder="نام" name="fullname" [(ngModel)]="coname"
+                          [ngModelOptions]="{standalone: true}">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-12 mb-2">
+                        <label for="eventInput3">شناسه ملی </label>
+                        <input type="text" style="direction: rtl; text-align: right;" id="eventInput3"
+                          class="form-control" placeholder="شرکت" name="company" [(ngModel)]="coid"
+                          [ngModelOptions]="{standalone: true}">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-12 mb-2">
+                        <label for="eventInput3">شماره تماس </label>
+                        <input type="text" style="direction: rtl; text-align: right;" id="eventInput3"
+                          class="form-control" placeholder="شرکت" name="company" [(ngModel)]="cotel"
+                          [ngModelOptions]="{standalone: true}">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-12 mb-2">
+                        <label for="eventInput3">ایمیل </label>
+                        <input type="text" style="direction: rtl; text-align: right;" id="eventInput3"
+                          class="form-control" placeholder="شرکت" name="company" [(ngModel)]="comail"
+                          [ngModelOptions]="{standalone: true}">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-12 mb-2" style="direction: rtl;text-align: right;">
+                        <label for="eventInput1">نام شرکت بیمه قبلی</label>
+                        <div class="row">
+                          <div class="col-7">
+                            <div class="related-widget-wrapper">
+                              <ng-select [items]="insurers" [multiple]="false" bindLabel="name"
+                                [selectableGroup]="false" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                bindValue="id" (change)="getValuesins()" [(ngModel)]="insselected"
+                                [ngModelOptions]="{standalone: true}"
+                                style="direction: rtl;text-align: right; width:100%; margin: auto;border: solid rgb(224, 219, 219) 1px; border-radius: 4px;"
+                                id="sgp">
+                                <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
+                                  <div style=" font-size: larger;color: darkblue;height: 30px;">
+                                    {{item.name }}
+                                  </div>
+                                </ng-template>
+                              </ng-select>
+                            </div>
+                          </div>
+                          <div class="col-4">
+                            <button type="button" class="btn btn-raised btn-primary" (click)="open(insu)">
+                              <i class="fa fa-check-square-o"></i> ایجاد بیمه گر جدید
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-12 mb-2">
+                        <label for="eventInput3">آدرس </label>
+                        <input type="text" style="direction: rtl; text-align: right;" id="eventInput3"
+                          class="form-control" placeholder="شرکت" name="company" [(ngModel)]="coadd"
+                          [ngModelOptions]="{standalone: true}">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-12 mb-2" style="direction: rtl;text-align: right;">
+                        <label> لطفا تصویر سازمان را انتخاب کنید</label>
+                        <br />
+                        <label for="pwfile-upload" class="btn btn-raised btn-primary" style="cursor: pointer;">
+                          <i class="fa fa-check-square-o"></i>انتخاب فایل
+                        </label>
+                        <input id="pwfile-upload" type='file' (change)="pwSelectFile($event)" multiple>
+                      </div>
+                      <div class="form-group col-12 mb-2">
+                        <div class="pwprogress" *ngIf="pwprogress">
+                          <div class="progress-bar" [style.width]="progress + '%'">{{pwprogress}}%</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <img *ngFor='let url of pwurls' [src]="url" height="200" style="margin:10px;"> <br />
+                    </div>
+                    <div class="form-actions center">
+                      <button type="button" class="btn btn-raised btn-warning mr-1" (click)="d('Cross click')">
+                        <i class="ft-x"></i> انصراف
+                      </button>
+                      <button type="button" class="btn btn-raised btn-primary" (click)="c('Cross click')">
+                        <i class="fa fa-check-square-o"></i> ذخیره
+                      </button>
+                    </div>
+
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template #insu let-c="close" let-d="dismiss" style="direction: rtl; text-align: right;">
+    <div class="modal-header px-4" style="direction: rtl; text-align: right;">
+      <h4 class="modal-title">ایجاد بیمه گر جدید</h4>
+    </div>
+    <div class="modal-body px-4">
+      <div class="row text-right justify-content-md-center">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header">
+
+              <div class="alert alert-info" role="alert">
+                <strong> لطفا کلیه موارد زیر را تکمیل فرمائید </strong>
+              </div>
+            </div>
+            <div class="card-content">
+              <div class="px-3">
+                <form class="form">
+                  <div class="form-body">
+                    <div class="row">
+                      <div class="form-group col-12 mb-2">
+                        <label for="eventInput1"> نام شرکت بیمه</label>
+                        <input type="text" style="direction: rtl; text-align: right;" id="eventInput1"
+                          class="form-control" placeholder="شرکت بیمه گر" name="fullname" [(ngModel)]="insconame"
+                          [ngModelOptions]="{standalone: true}">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-12 mb-2">
+                        <label for="eventInput3">شناسه ملی </label>
+                        <input type="text" style="direction: rtl; text-align: right;" id="eventInput3"
+                          class="form-control" placeholder="شناسه ملی شرکت" name="company" [(ngModel)]="inscoid"
+                          [ngModelOptions]="{standalone: true}">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-12 mb-2">
+                        <label for="eventInput3">شماره تماس </label>
+                        <input type="text" style="direction: rtl; text-align: right;" id="eventInput3"
+                          class="form-control" placeholder="شماره تماس" name="company" [(ngModel)]="inscotel"
+                          [ngModelOptions]="{standalone: true}">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-12 mb-2">
+                        <label for="eventInput3">ایمیل </label>
+                        <input type="text" style="direction: rtl; text-align: right;" id="eventInput3"
+                          class="form-control" placeholder="آدرس ایمیل" name="company" [(ngModel)]="inscomail"
+                          [ngModelOptions]="{standalone: true}">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-12 mb-2">
+                        <label for="eventInput3">آدرس </label>
+                        <input type="text" style="direction: rtl; text-align: right;" id="eventInput3"
+                          class="form-control" placeholder="آدرس" name="company" [(ngModel)]="inscoadd"
+                          [ngModelOptions]="{standalone: true}">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-12 mb-2" style="direction: rtl;text-align: right;">
+                        <label> لطفا تصویر شرکت بیمه را انتخاب کنید</label>
+                        <br />
+                        <label for="insfile-upload" class="btn btn-raised btn-primary" style="cursor: pointer;">
+                          <i class="fa fa-check-square-o"></i>انتخاب فایل
+                        </label>
+                        <input id="insfile-upload" type='file' (change)="insSelectFile($event)" multiple>
+                      </div>
+                      <div class="form-group col-12 mb-2">
+                        <div class="progress" *ngIf="insprogress">
+                          <div class="progress-bar" [style.width]="progress + '%'">{{insprogress}}%</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <img *ngFor='let url of insurls' [src]="url" height="200" style="margin:10px;"> <br />
+                    </div>
+                    <div class="row">
+                      <div class="form-actions center">
+                        <button type="button" class="btn btn-raised btn-warning mr-1" (click)="d('Cross click')">
+                          <i class="ft-x"></i> انصراف
+                        </button>
+                        <button type="button" class="btn btn-raised btn-primary" (click)="c('Cross click')">
+                          <i class="fa fa-check-square-o"></i> ذخیره
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template #servi let-c="close" let-d="dismiss" style="direction: rtl; text-align: right;">
+    <div class="modal-header px-4" style="direction: rtl; text-align: right;">
+      <h4 class="modal-title">ایجاد تعهد جدید</h4>
+    </div>
+    <div class="modal-body px-4">
+      <div class="row text-right justify-content-md-center">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header">
+
+              <div class="alert alert-info" role="alert">
+                <strong> لطفا کلیه موارد زیر را تکمیل فرمائید </strong>
+              </div>
+            </div>
+            <div class="card-content">
+              <div class="px-3">
+                <form class="form">
+                  <div class="form-body">
+                    <div class="row">
+                      <div class="form-group col-12 mb-2">
+                        <label for="eventInput1">عنوان تعهد</label>
+                        <input type="text" style="direction: rtl; text-align: right;" id="eventInput1"
+                          class="form-control" placeholder="نام" name="fullname">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-12 mb-2">
+                        <label for="eventInput3">توضیحات تعهد</label>
+                        <input type="text" style="direction: rtl; text-align: right;" id="eventInput3"
+                          class="form-control" placeholder="شرکت" name="company">
+                      </div>
+                    </div>
+                    <div class="row" style="direction: rtl; text-align: right;">
+                      <div class="form-group col-12 mb-2">
+                        <label for="eventInput2"> انتخاب خدمات</label>
+                        <div class="row">
+                          <div class="col-4">
+                            <div class="related-widget-wrapper">
+                              <ng-select [items]="subservices" [multiple]="true" bindLabel="subservs"
+                                [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false"
+                                bindValue="id" (change)="getValues()" [(ngModel)]="selected"
+                                style="direction: rtl;text-align: right; width:100%; margin: auto;" id="sgp">
+                                <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
+                                  <div style=" font-size: larger;color: darkblue;height: 30px;">
+                                    {{item.subservs }}
+                                  </div>
+                                </ng-template>
+                              </ng-select>
+                            </div>
+                          </div>
+                          <div class="col-4">
+                            <button type="button" class="btn btn-raised btn-primary" (click)="open(subservice)">
+                              <i class="fa fa-check-square-o"></i> ایجاد خدمت جدید
+                            </button>
+                          </div>
+                          <div>
+                            <div *ngFor="let hero of ss">
+                              <div
+                                style="width: 100%; margin:auto;background-color: whitesmoke; height: 100%;border: solid 1px gainsboro;border-radius: 8px;margin-top: 10px; font-size: 10px; font-family: myFirstFont1;">
+                                <div class="row" style="direction: rtl;">
+                                  <div class="col-sm-8" style="margin: auto; text-align: right;">
+                                    <p style="margin-top: 10px; margin-right: 10px;">{{ hero }}</p>
+                                    <label for="eventInput3">حداکثر پوشش</label>
+                                    <input type="text" style="direction: rtl; text-align: right;" id="eventInput1"
+                                      class="form-control" placeholder="نام" name="fullname">
+                                  </div>
+                                  <div class="col-sm-4" style="margin: auto;">
+                                    <div style="width: 100px;height: 100px; padding: 10px;float: left;">
+                                      <button type="button" class="btn btn-raised btn-warning mr-1"
+                                        style="margin-left: auto;width: 70px;height: 70px; float: left;"
+                                        (click)="loadChildComponent($event, hero);">انتخاب خدمت</button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="form-actions center">
+                      <button type="button" class="btn btn-raised btn-warning mr-1" (click)="d('Cross click')">
+                        <i class="ft-x"></i> انصراف
+                      </button>
+                      <button type="button" class="btn btn-raised btn-primary">
+                        <i class="fa fa-check-square-o"></i> ذخیره
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template #plns let-c="close" let-d="dismiss" style="direction: rtl; text-align: right;">
+    <div class="modal-header px-4" style="direction: rtl; text-align: right;">
+      <h4 class="modal-title">ایجاد طرح جدید</h4>
+    </div>
+    <div class="modal-body px-4">
+      <div class="row text-right justify-content-md-center">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header">
+              <div class="alert alert-info" role="alert">
+                <strong> لطفا کلیه موارد زیر را تکمیل فرمائید </strong>
+              </div>
+            </div>
+            <div class="card-content">
+              <div class="px-3">
+                <form class="form">
+                  <div class="form-body">
+                    <div class="row">
+                      <div class="form-group col-12 mb-2">
+                        <label for="eventInput1">عنوان طرح</label>
+                        <input type="text" style="direction: rtl; text-align: right;" id="eventInput1"
+                          class="form-control" placeholder="نام طرح" name="planname" [(ngModel)]="planname"
+                          [ngModelOptions]="{standalone: true}">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-12 mb-2">
+                        <label for="eventInput3">توضیحات طرح</label>
+                        <input type="text" style="direction: rtl; text-align: right;" id="eventInput3"
+                          class="form-control" placeholder="توضیحات طرح" name="palndes" [(ngModel)]="plandes"
+                          [ngModelOptions]="{standalone: true}">
+                      </div>
+                    </div>
+                    <div class="row" style="direction: rtl; text-align: right;">
+                      <div class="form-group col-12 mb-2">
+                        <label for="eventInput2"> انتخاب تعهد</label>
+                        <div class="row">
+                          <div class="col-7">
+                            <div class="related-widget-wrapper">
+
+                              <ng-select [items]="servs" bindLabel="svr" [multiple]="true" [closeOnSelect]="true"
+                                bindValue="svrid" (change)="getservs()" [(ngModel)]="selectedsvr1"
+                                [ngModelOptions]="{standalone: true}"
+                                style="direction: rtl;text-align: right; width:100%; margin: auto;" id="sgp">
+                                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index" id="sgp">
+                                  <b id="item-{{index}}" id="sgp" style="margin:10px">
+                                    {{item.svr }}
+                                  </b>
+                                </ng-template>
+                              </ng-select>
+                            </div>
+                          </div>
+                          <div class="col-4">
+                            <button type="button" class="btn btn-raised btn-primary" (click)="open(servi)">
+                              <i class="fa fa-check-square-o"></i> ایجاد تعهد جدید
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div *ngIf="selectedsvr1f">
+                      <table style="width:95%; direction: rtl;text-align: right; margin: auto;">
+                        <thead>
+                          <tr>
+                            <th>
+                              <div
+                                style="background-color:rgb(207, 207, 207) ; padding:15px;border-top:solid  rgb(121, 124, 131) 1px; border-bottom:solid  rgb(121, 124, 131) 1px; text-align: center;">
+                                تعهد
+                              </div>
+                            </th>
+                            <th>
+                              <div
+                                style="background-color:rgb(207, 207, 207) ; padding:15px;border-top:solid  rgb(121, 124, 131) 1px; border-bottom:solid  rgb(121, 124, 131) 1px; text-align: center;">
+                                خدمات
+                              </div>
+                            </th>
+                            <th>
+                              <div
+                                style="background-color:rgb(207, 207, 207) ; padding:15px;border-top:solid  rgb(121, 124, 131) 1px; border-bottom:solid  rgb(121, 124, 131) 1px; text-align: center;">
+                                حداکثر پوشش
+                              </div>
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let t of svrtable;let indexOfelement=index;"
+                            style=" padding:15px; border-bottom:solid  rgb(121, 124, 131) 1px;">
+                            <td>
+                              <div style="margin:auto;text-align: center;">
+                                {{t.svr}}
+                              </div>
+                            </td>
+                            <td>
+                              <div>
+                                <a *ngFor="let s of t.subsvr;">
+                                  <p
+                                    style="border-radius: 4px; background-color: rgb(182, 252, 246);margin: 5px;padding: 5px; cursor: context-menu;">
+                                    {{s.sub_title}}
+                                    <a style="color:darkorange ;cursor: context-menu;">
+                                      ( پردااخت طبق تعرفه نظام پزشکی
+                                      <input type="checkbox" [(ngModel)]="flagval[s.sub_id]"
+                                        style="margin-right: 5px;cursor: pointer;"
+                                        [ngModelOptions]="{standalone: true}">
+                                      )
+                                    </a>
+                                  </p>
+                                </a>
+                              </div>
+                            </td>
+                            <td>
+                              <div style="margin:auto;text-align: center;">
+                                <input type="text" name="covrage" placeholder="حداکثر پوشش"
+                                  [(ngModel)]="covval[indexOfelement]" [ngModelOptions]="{standalone: true}">
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div class="form-actions center">
+                      <button type="button" class="btn btn-raised btn-warning mr-1" (click)="d('Cross click')">
+                        <i class="ft-x"></i> انصراف
+                      </button>
+                      <button type="button" class="btn btn-raised btn-primary" (click)="c('Cross click')">
+                        <i class="fa fa-check-square-o"></i> ذخیره
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template #selservi let-c="close" let-d="dismiss" style="direction: rtl; text-align: right;">
+    <div class="modal-header px-4" style="direction: rtl; text-align: right;">
+      <h4 class="modal-title">انتساب تعهد جدید</h4>
+    </div>
+    <div class="modal-body px-4">
+      <div class="row text-right justify-content-md-center">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header">
+              <div class="alert alert-info" role="alert">
+                <strong> لطفا کلیه موارد زیر را تکمیل فرمائید </strong>
+              </div>
+            </div>
+            <div class="card-content">
+              <div class="px-3">
+                <form class="form">
+                  <div class="form-body">
+
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template #selplns let-c="close" let-d="dismiss" style="direction: rtl; text-align: right;">
+    <div class="modal-header px-4" style="direction: rtl; text-align: right;">
+      <h4 class="modal-title"> ایجاد طرح از طریق فایل اکسل</h4>
+    </div>
+    <div class="modal-body px-4">
+      <div class="row text-right justify-content-md-center">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header">
+              <div class="alert alert-info" role="alert">
+                <strong> لطفا ابتدا فایل نمونه را دانلود کرده و پس از تکمیل کردن، آن را بارگذاری نمائید <a href="http://bimeh.plus/assets/plan.xlsx">فایل نمونه</a></strong>
+              </div>
+            </div>
+            <div class="card-content">
+              <div class="px-3">
+                <form class="form">
+                  <div class="form-body">
+                    <div class="row">
+                      <div class="col-md-12 form-group" style="margin:auto; ">
+                        <label for="file-upload" class="btn btn-raised btn-primary" style="margin:auto;cursor: pointer;float:right">
+                          <i class="fa fa-check-square-o"></i>انتخاب فایل اکسل
+                        </label>
+                        <input style="margin-right: 10px;" id="file-upload" type="file" class="form-control"
+                          (change)="uploadedFile($event)" placeholder="Upload file" accept=".xlsx">
+                        <input type="text" style="margin-right:10px;height: 35px;width: 60%;float:right;text-align: left;"
+                          [(ngModel)]="excelpath1" [ngModelOptions]="{standalone: true}">
+                      </div>
+                    </div>
+                    <div class="row" style="text-align: right;direction: rtl;">
+                      <div class="col-md-4 form-group">
+                        <button type="button" class="btn btn-raised btn-info btn-block my-2" style="margin:auto" (click)="reg()">
+                          <i class="ft-upload-cloud" style="margin-left: 10px;"></i>ورود فایل</button>
+                      </div>
+                      <div class="col-md-8 form-group" style="margin: auto;text-align: center;">
+                        تعداد رکورد موجود در فایل: {{totalrow1}}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-actions center">
+                    <button type="button" class="btn btn-raised btn-warning mr-1" (click)="d('Cross click')">
+                      <i class="ft-x"></i> انصراف
+                    </button>
+                    <button type="button" class="btn btn-raised btn-primary" (click)="c('Cross click')">
+                      <i class="fa fa-check-square-o"></i> ذخیره
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template #subservice let-c="close" let-d="dismiss" style="direction: rtl; text-align: right;">
+    <div class="modal-header px-4" style="direction: rtl; text-align: right;">
+      <h4 class="modal-title">ایجاد خدمت جدید</h4>
+    </div>
+    <div class="modal-body px-4">
+      <div class="row text-right justify-content-md-center">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header">
+              <div class="alert alert-info" role="alert">
+                <strong> لطفا کلیه موارد زیر را تکمیل فرمائید </strong>
+              </div>
+            </div>
+            <div class="card-content">
+              <div class="px-3">
+                <form class="form">
+                  <div class="form-body">
+                    <div class="row">
+                      <div class="form-group col-12 mb-2">
+                        <label for="eventInput1">عنوان خدمت</label>
+                        <input type="text" style="direction: rtl; text-align: right;" id="eventInput1"
+                          class="form-control" placeholder="عنوان خدمت" name="fullname"  [(ngModel)]="subsvrtitle" [ngModelOptions]="{standalone: true}">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-12 mb-2">
+                        <label for="eventInput3">توضیحات خدمت</label>
+                        <input type="text" style="direction: rtl; text-align: right;" id="eventInput3"
+                          class="form-control" placeholder="توضیحات" name="company"  [(ngModel)]="subsvrdes" [ngModelOptions]="{standalone: true}">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-12 mb-2">
+                        <label for="eventInput1">انتساب به تعهد</label>
+                        <ng-select [items]="servs" bindLabel="svr" [multiple]="false" [closeOnSelect]="true"
+                        bindValue="svrid" (change)="getservs()" [(ngModel)]="selectedsvrforsub"
+                        [ngModelOptions]="{standalone: true}"
+                        style="direction: rtl;text-align: right; width:100%; margin: auto;" id="sgp">
+                        <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index" id="sgp">
+                          <b id="item-{{index}}" id="sgp" style="margin:10px">
+                            {{item.svr }}
+                          </b>
+                        </ng-template>
+                      </ng-select>
+                      </div>
+                    </div>
+                    <div class="form-actions center">
+                      <button type="button" class="btn btn-raised btn-warning mr-1" (click)="d('Cross click')">
+                        <i class="ft-x"></i> انصراف
+                      </button>
+                      <button type="button" class="btn btn-raised btn-primary" (click)="c('Cross click')">
+                        <i class="fa fa-check-square-o"></i> ذخیره
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</div>
+
+
+<!-- <div class="email-app-mail-content" #emailContent> 
+        <div class="email-app-mail-content-detail" *ngIf="isMessageSelected">
+          <div class="email-app-options card-body">
+            <div class="row d-md-none">
+              <button class="btn btn-raised btn-primary ml-2 back-to-inbox" (click)="OnBackToInbox()">
+                <i class="fa fa-angle-left"></i> بازگشت به صندوق ورودی</button>
+            </div>
+            <div class="row">
+              <div class="col-sm-6 col-12 text-left">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                  <button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="tooltip"
+                    data-placement="top" data-original-title="Replay">
+                    <i class="fa fa-reply"></i>
+                  </button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="tooltip"
+                    data-placement="top" data-original-title="Replay All">
+                    <i class="fa fa-reply-all"></i>
+                  </button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="tooltip"
+                    data-placement="top" data-original-title="Report SPAM">
+                    <i class="ft-alert-octagon"></i>
+                  </button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="tooltip"
+                    data-placement="top" data-original-title="Delete">
+                    <i class="ft-trash-2"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="col-sm-6 col-12 text-right">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                  <button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="tooltip"
+                    data-placement="top" data-original-title="Previous">
+                    <i class="fa fa-angle-left"></i>
+                  </button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="tooltip"
+                    data-placement="top" data-original-title="Next">
+                    <i class="fa fa-angle-right"></i>
+                  </button>
+                </div>
+                <div class="btn-group ml-1">
+                  <div ngbDropdown [placement]="placement" class="d-inline-block">
+                    <button class="btn btn-sm btn-outline-secondary" id="dropdownBasic1"
+                      ngbDropdownToggle>بیشتر</button>
+                    <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                      <button class="dropdown-item" (click)="markAsUnread();">به عنوان "خوانده نشده" علامت گذاری
+                        کن</button>
+                      <button class="dropdown-item" *ngIf="!isEmailImportant" (click)="markAsImportant();">علامت گذاری
+                        به عنوان مهم است</button>
+                      <button class="dropdown-item" *ngIf="isEmailImportant" (click)="markAsUnimportant();">علامت گذاری
+                        به عنوان غیر مهم</button>
+                      <button class="dropdown-item">اضافه کردن ستاره</button>
+                      <button class="dropdown-item">اضافه کردن به کار</button>
+                      <div class="dropdown-divider"></div>
+                      <button class="dropdown-item">فیلتر ایمیل</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="email-app-title card-body">
+            <h3 class="list-group-item-heading text-left">{{message.subject}}</h3>
+            <div class="row">
+              <div class="col-sm-6 col-12 text-left">
+                <span class="primary">
+                  <span class="badge badge-primary ">قبلی</span>
+                </span>
+              </div>
+              <div class="col-sm-6 col-12 text-right">
+                <i *ngIf="isEmailImportant" class="float-right font-medium-3 ft-star warning"></i>
+                <i *ngIf="!isEmailImportant" class="float-right font-medium-3 ft-star"></i>
+              </div>
+            </div>
+          </div>
+
+          <div *ngFor="let messageDetail of message.messages">
+            <div id="headingCollapse2" class="card-header p-0">
+              <a (click)="messageDetail.collapsed = !messageDetail.collapsed"
+                [attr.aria-expanded]="!messageDetail.collapsed" [attr.aria-controls]="messageDetail.messageId">
+                <div class="email-app-sender list-group-item list-group-item-action no-border">
+                  <div class="media">
+                    <span class="avatar avatar-md mr-2">
+                      <span *ngIf="!messageDetail.hasAvatar"
+                        class="media-object rounded-circle text-circle d-flex mr-2 justify-content-center align-items-center + ' ' + {{messageDetail.avatarClass}}">{{
+                        messageDetail.avatarText }}</span>
+                      <img *ngIf="messageDetail.hasAvatar" class="media-object rounded-circle"
+                        [src]="messageDetail.avatarPath" alt="Generic placeholder image">
+                    </span>
+                    <div class="media-body text-left">
+                      <h6 class="list-group-item-heading">{{messageDetail.mailFrom}}</h6>
+                      <p class="list-group-item-text">به {{messageDetail.mailTo}}
+                        <span class="primary">{{messageDetail.time}}</span>
+                        <span class="float-right">
+                          <i class="fa fa-reply mr-1"></i>
+                          <i class="fa fa-arrow-right mr-1"></i>
+                          <i class="fa fa-ellipsis-v"></i>
+                        </span>
+                      </p>
+
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+            <div [id]="messageDetail.messageId" [ngbCollapse]="messageDetail.collapsed">
+              <div class="card-content">
+                <div class="email-app-text card-body">
+                  <div class="email-app-message text-left">
+                    <div [innerHTML]="messageDetail.body">
+                    </div>
+                    <div *ngIf="messageDetail.hasAttachment">
+                      <p class="primary">پیوست ها:</p>
+                      <div *ngFor="let attachment of messageDetail.attachments" class="float-left mr-2">
+                        <img class="media-object width-100" [src]="attachment.url" alt="Generic placeholder image">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="email-app-text-action card-body">
+
+            </div>
+          </div>
+
+        </div>
+        <div class="email-app-mail-content-detail" *ngIf="!isMessageSelected">
+          <p class="primary text-center">یک پیام را برای خواندن انتخاب کنید</p>
+        </div>
+      </div> -->

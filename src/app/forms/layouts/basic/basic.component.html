@@ -1,0 +1,329 @@
+<div class="row text-left">
+  <div class="col-sm-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">انتخاب بیمه شده</h4>
+      </div>
+      <div class="card-content">
+        <div class="card-body">
+          <div *ngIf="superadmin" class="table-responsive">
+            <div class="row text-center" style="margin: auto;">
+              <div class="col-sm-12">
+                <div class="card">
+                  <div class="card-header">
+                    <h4 class="card-title">فیلترینگ </h4>
+                  </div>
+                  <div class="card-content">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-sm-3" style="margin: 10px;">
+                          <label for="eventInput2"> انتخاب قرارداد</label>
+                          <div class="row">
+                            <ng-select [items]="contracts" [multiple]="false" bindLabel="name" [selectableGroup]="false"
+                              [selectableGroupAsModel]="false" [closeOnSelect]="true" bindValue="id"
+                              (change)="selectcon()" [(ngModel)]="contselected" [ngModelOptions]="{standalone: true}"
+                              style="direction: rtl;text-align: right; width:100%; margin: auto;border: solid rgb(224, 219, 219) 1px; border-radius: 4px;"
+                              id="sgp">
+                              <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
+                                <div style=" font-size: larger;color: darkblue;height: 30px;">
+                                  {{item.name }}
+                                </div>
+                              </ng-template>
+                            </ng-select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <ng2-smart-table [settings]="alertsettings1" [source]="alertSource"
+              (deleteConfirm)="onDeleteConfirm($event)" (editConfirm)="onSaveConfirm($event)"
+              (createConfirm)="onCreateConfirm($event)" (custom)="regclaim($event)">
+            </ng2-smart-table>
+          </div>
+          <div *ngIf="admin" class="table-responsive">
+            <div class="row text-center" style="margin: auto;">
+              <div class="col-sm-11">
+                <div class="card">
+                  <div class="card-header">
+                    <h4 class="card-title">فیلترینگ </h4>
+                  </div>
+                  <div class="card-content">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-sm-3" style="margin: 10px;">
+                          <label for="eventInput2"> انتخاب قرارداد</label>
+                          <div class="row">
+                            <ng-select [items]="contracts" [multiple]="true" bindLabel="name" [selectableGroup]="false"
+                              [selectableGroupAsModel]="false" [closeOnSelect]="true" bindValue="id"
+                              (change)="selectcon()" [(ngModel)]="contselected" [ngModelOptions]="{standalone: true}"
+                              style="direction: rtl;text-align: right; width:100%; margin: auto;border: solid rgb(224, 219, 219) 1px; border-radius: 4px;"
+                              id="sgp">
+                              <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
+                                <div style=" font-size: larger;color: darkblue;height: 30px;">
+                                  {{item.name }}
+                                </div>
+                              </ng-template>
+
+                            </ng-select>
+                          </div>
+                        </div>
+
+                        <div class="col-sm-1" style="margin: auto;text-align: center;">
+                          <label for="eventInput2"> </label>
+                          <button type="button" class="btn btn-raised btn-primary"
+                            style="width: 100%;text-align: center;">
+                            <i class="fa fa-check-square-o"></i> اعمال فیلتر
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <ng2-smart-table [settings]="alertsettings1" [source]="alertSource"
+              (deleteConfirm)="onDeleteConfirm($event)" (editConfirm)="onSaveConfirm($event)"
+              (createConfirm)="onCreateConfirm($event)" (custom)="regclaim($event)">
+            </ng2-smart-table>
+          </div>
+          <div *ngIf="insured" class="table-responsive">
+            <div class="row text-center" style="margin: auto;">
+              <div class="col-sm-11">
+                <!-- <div class="card">
+                  <div class="card-header">
+                    <h4 class="card-title">فیلترینگ </h4>
+                  </div>
+                  <div class="card-content">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-sm-3" style="margin: 10px;">
+                          <label for="eventInput2"> انتخاب قرارداد</label>
+                          <div class="row">
+                            <select id="projectinput6" name="interested" class="form-control">
+                              <option value="none" selected="" disabled=""></option>
+                              <option value="design">طراحی</option>
+                              <option value="development">توسعه دهنده</option>
+                              <option value="illustration">تصویر</option>
+                              <option value="branding">نام تجاری</option>
+                              <option value="video">ویدئو</option>
+                            </select>
+
+                          </div>
+                        </div>
+                        <div class="col-sm-3" style="margin: 10px;">
+                          <label for="eventInput2"> انتخاب طرح</label>
+                          <div class="row">
+                            <select id="projectinput6" name="interested" class="form-control">
+                              <option value="none" selected="" disabled=""></option>
+                              <option value="design">طراحی</option>
+                              <option value="development">توسعه دهنده</option>
+                              <option value="illustration">تصویر</option>
+                              <option value="branding">نام تجاری</option>
+                              <option value="video">ویدئو</option>
+                            </select>
+
+                          </div>
+                        </div>
+
+                        <div class="col-sm-1" style="margin: auto;text-align: center;">
+                          <label for="eventInput2"> </label>
+                          <button type="button" class="btn btn-raised btn-primary"
+                            style="width: 100%;text-align: center;">
+                            <i class="fa fa-check-square-o"></i> اعمال فیلتر
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div> -->
+              </div>
+            </div>
+            <ng2-smart-table [settings]="alertsettings2" [source]="alertSource"
+              (deleteConfirm)="onDeleteConfirm($event)" (editConfirm)="onSaveConfirm($event)"
+              (createConfirm)="onCreateConfirm($event)" (custom)="regclaim($event)">
+            </ng2-smart-table>
+          </div>
+          <div *ngIf="showperson">
+            <div class="row text-left">
+              <div class="col-sm-12">
+                <div class="card">
+                  <div class="card-header">
+                    <h4 class="card-title">شخص انتخابی</h4>
+                  </div>
+                  <div class="card-content">
+                    <div class="card-body">
+
+                      <img class="profile" [src]="perimg" style=" width: 100px; height: 100px; margin-left: 20px;" onerror="this.src='../../../../assets/images/profile.png'">
+                      {{per}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="user">
+  <div class="row" style="height:auto;  margin-bottom: 20px;">
+    <div class="col-xl-12 col-lg-12 col-12">
+      <div class="card" style="height: 100%;">
+        <div class="card-header">
+          <h4 class="card-title">{{contract}}</h4>
+        </div>
+        <div class="card-content" style="padding: 10px;">
+          <div class="row">
+
+            <div class="col-xl-8 col-lg-12 col-12" style="padding: 20px; text-align: right;">
+              تاریخ شروع قرارداد: {{start}}
+              <br />
+              تاریخ پایان قرارداد: {{end}}
+              <br />
+              <strong>{{des}}</strong>
+            </div>
+            <div class="col-xl-4 col-lg-12 col-12" style="padding: 20px; text-align: left;">
+              <div>
+                <img [src]="contract_image" style=" height: 100px; margin-left: 20px;" onerror="this.src='../../../../assets/images/profile.png'">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" style="height:auto;  margin-bottom: 20px;">
+    <div class="col-xl-4 col-lg-12 col-12">
+      <div class="card" style="height: 100%; ">
+        <div class="card-header">
+          <h4 class="card-title">انتخاب بیمه شده</h4>
+        </div>
+        <div class="card-content" style="padding: 10px;">
+          <div class="row">
+            <div class="col-xl-12 col-lg-12 col-12">
+              <ng-select [items]="perrel" bindLabel="name" [closeOnSelect]="true" bindValue="NID"
+                (change)="getValues1()" [(ngModel)]="selected1"
+                style="direction: rtl;text-align: right; width:100%; margin: auto;" id="sgp">
+                <ng-template ng-label-tmp let-item="item">
+                  <img class="profile1" height="75" width="75" [src]="item.img" style="height: 75;width: 75;" onerror="this.src='../../../../assets/images/profile.png'"/>
+                  <b style="margin:10px"><strong>{{item.name}} : {{item.reltomain}}</strong></b>
+                </ng-template>
+                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index" id="sgp">
+                  <div style="padding-right: 10px;">
+                    <img class="profile1" height="75" width="75" [src]="item.img" style="height: 75;width: 75;" onerror="this.src='../../../../assets/images/profile.png'"/>
+                    <b> </b>
+                    <b id="item-{{index}}" [ngModel]="item$.selected1" id="sgp" style="margin:10px">
+                      {{item.name}} : {{item.reltomain}}
+                    </b>
+                  </div>
+                </ng-template>
+              </ng-select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="showclaim">
+  <div class="row" style="height:auto; min-height: 300px;">
+    <div class="col-xl-3 col-lg-12 col-12">
+      <div class="card" style="height: 100%;">
+        <div class="card-header">
+          <h4 class="card-title">{{planname}}</h4>
+        </div>
+        <div class="card-content" style="padding: 10px;">
+          <div *ngFor="let svr1 of servgp" style="margin:10px">
+            <app-servlist [childMessage]="svr1"></app-servlist>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-lg-12 col-12">
+      <div class="card" style="height: 100%;">
+        <div class="card-header">
+          <h4 class="card-title"> انتخاب خدمات</h4>
+        </div>
+        <div class="card-content" style="padding: 10px;">
+          <div class="row">
+            <div class="col-sm-12">
+              <ng-select [items]="items" [multiple]="true" bindLabel="subserv" groupBy="serv" [selectableGroup]="true"
+                [selectableGroupAsModel]="false" [closeOnSelect]="true" bindValue="id" (change)="getValues()"
+                placeholder="جستجوی خدمت" [(ngModel)]="selected"
+                style="direction: rtl;text-align: right; width:100%; margin: auto;" id="sgp">
+                <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
+                  <div style=" font-size: larger;color: darkblue;height: 30px;">
+                    {{item.serv }}
+                  </div>
+                </ng-template>
+                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index" id="sgp">
+                  <div style="padding-right: 10px;">
+                    <input id="item-{{index}}" type="checkbox" [ngModel]="item$.selected" id="sgp" />
+                    {{item.subserv}}
+                  </div>
+                </ng-template>
+              </ng-select>
+            </div>
+          </div>
+          {{countss()}}
+          <div *ngFor="let hero of ss">
+            <div
+              style="width: 100%; margin:auto;background-color: whitesmoke; height: 100%;border: solid 1px gainsboro;border-radius: 8px;margin-top: 10px; font-size: 10px; font-family: myFirstFont1;">
+              <div class="row" style="direction: rtl;">
+                <div class="col-sm-6" style="margin: auto; text-align: right;">
+                  <p style="margin-top: 10px; margin-right: 10px;">{{ hero.name }}</p>
+                  <br>
+                  <div *ngIf="hero.showtc">
+                    <a style=" margin-right:10px;float: right; font-size: 12px; color: green;"> کد پیگیری:
+                      {{hero.tc}}</a>
+                  </div>
+                  <br>
+                  <button type="button" class="btn btn-raised btn-primary mr-1" (click)="showpopup()"
+                    style="float: right;">
+                    مدارک مورد نیاز
+                  </button>
+                </div>
+                <div class="col-sm-6" style="margin: auto;">
+                  <div style="width: 100px;height: 100px; padding: 10px;float: left;">
+                    <button type="button" class="btn btn-raised btn-warning mr-1"
+                      style="margin-left: auto;width: 70px;height: 70px; float: left;"
+                      (click)="loadChildComponent($event, hero);">ثبت مستندات</button>
+                  </div>
+                </div>
+              </div>
+              <div class="row" style="margin: auto;text-align: center;">
+                <button type="button" class="btn btn-raised btn-info mr-1" (click)="duplicate($event, hero)">
+                  تکرار
+                </button>
+                <button type="button" class="btn btn-raised btn-danger mr-1 " (click)="delete($event, hero)">
+                  حذف
+                </button>
+              </div>
+            </div>
+          </div>
+          <div style="margin: auto; text-align: center;">
+            <button type="button" class="btn btn-raised btn-primary" (click)="printPage()">
+              <i class="fa fa-check-square-o"></i> چاپ رسید
+            </button>
+            <app-print *ngIf="showprint" (onClose)="closeprint($event)"></app-print>
+          </div>
+        </div>
+      </div>
+    </div>
+      <div class="col-xl-6 col-lg-12 col-12">
+        <div class="card" style="height: 100%;">
+          <div class="card-content" style="padding: 10px;">
+            <div *ngFor="let doc of docs">
+              <app-formdoc [childMessage1]="doc" (onClose)="modalClosed($event)" (onSave)="saveClosed($event)">
+              </app-formdoc>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

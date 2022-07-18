@@ -1,0 +1,553 @@
+<div *ngIf="reguser"
+  style="border-radius: 8px;box-shadow: rgb(102, 102, 102) 5px;border: gray solid 1px;background-color: white;">
+  <div class="row text-left">
+    <div class="col-12" style="padding-right: 40px;">
+      <div class="content-header">ثبت نام کاربران</div>
+    </div>
+  </div>
+  <div style=" padding:40px">
+    <div class="row" style="border-bottom: gray solid 1px;">
+      <div class="col-sm-12">
+        <div class="row" style="margin-top:20px">
+          <div class="col-sm-12" style="text-align: right;">
+            <h5>ثبت نام تکی بیمه شده</h5>
+          </div>
+        </div>
+        <div class="row" style="border-bottom: gray solid 1 px;">
+          <div class="col-sm-12 form-group" style="text-align: right;">
+            <button type="button" class="btn btn-raised btn-danger" (click)="open(content)">
+              <i class="ft-user-plus" style="margin-left: 10px;"></i>ثبت نام</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" style="border-bottom: gray solid 1px;">
+      <div class="col-sm-12">
+        <div class="row" style="margin-top:20px">
+          <div class="col-12" style="float: right;">
+            <h5 style="float: right;">ثبت نام گروهی از طریق فایل اکسل</h5>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12" style="float: right;">
+            <h6 style="float: right;">لطفا فایل نمونه را دانلود کرده و همانند مثال تکمیل فرمائید <a href="http://bimeh.plus/assets/register.xlsx">فایل نمونه</a></h6>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 form-group" style="margin:auto; ">
+            <label for="file-upload" class="btn btn-raised btn-primary" style="margin:auto;cursor: pointer;float:right">
+              <i class="fa fa-check-square-o"></i>انتخاب فایل اکسل
+            </label>
+            <input style="margin-right: 10px;" id="file-upload" type="file" class="form-control"
+              (change)="uploadedFile($event)" placeholder="Upload file" accept=".xlsx">
+            <input type="text" style="margin-right:10px;height: 35px;width: 80%;float:right;text-align: left;"
+              [(ngModel)]="excelpath1" [ngModelOptions]="{standalone: true}">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2 form-group">
+            <button type="button" class="btn btn-raised btn-info btn-block my-2" style="margin:auto" (click)="reg()">
+              <i class="ft-upload-cloud" style="margin-left: 10px;"></i>ورود فایل</button>
+          </div>
+          <div class="col-md-2 form-group" style="margin: auto;text-align: center;">
+            تعداد رکورد موجود در فایل: {{totalrow1}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" style="border-bottom: gray solid 1px;">
+      <div class="col-sm-12">
+        <div class="row" style="margin-top:20px">
+          <div class="col-12" style="float: right;">
+            <h5 style="float: right;">افراد ستاره دار</h5>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12" style="float: right;">
+            <h6 style="float: right;">لطفا فایل نمونه را دانلود کرده و همانند مثال تکمیل فرمائید <a href="http://bimeh.plus/assets/star.xlsx">فایل نمونه</a></h6>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 form-group" style="margin:auto; ">
+            <label for="file-upload2" class="btn btn-raised btn-primary" style="margin:auto;cursor: pointer;float:right">
+              <i class="fa fa-check-square-o"></i>انتخاب فایل اکسل
+            </label>
+            <input style="margin-right: 10px;" id="file-upload2" type="file" class="form-control"
+              (change)="uploadedFilestar($event)" placeholder="Upload file" accept=".xlsx">
+            <input type="text" style="margin-right:10px;height: 35px;width: 80%;float:right; text-align: left;"
+              [(ngModel)]="excelpath2" [ngModelOptions]="{standalone: true}">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2 form-group">
+            <button type="button" class="btn btn-raised btn-info btn-block my-2" style="margin:auto" (click)="star()">
+              <i class="ft-upload-cloud" style="margin-left: 10px;"></i>ورود فایل</button>
+          </div>
+          <div class="col-md-2 form-group" style="margin: auto;text-align: center;">
+            تعداد رکورد موجود در فایل: {{totalrow2}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" style="border-bottom: gray solid 1px;">
+      <div class="col-sm-12">
+        <div class="row" style="margin-top:20px">
+          <div class="col-12" style="float: right;">
+            <h5 style="float: right;">وارد کردن تاریخ تولد و محاسبه بازه سنی</h5>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12" style="float: right;">
+            <h6 style="float: right;">لطفا فایل نمونه را دانلود کرده و همانند مثال تکمیل فرمائید <a href="http://bimeh.plus/assets/birthdate.xlsx">فایل نمونه</a></h6>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 form-group" style="margin:auto; ">
+            <label for="file-upload3" class="btn btn-raised btn-primary" style="margin:auto;cursor: pointer;float:right">
+              <i class="fa fa-check-square-o"></i>انتخاب فایل اکسل
+            </label>
+            <input style="margin-right: 10px;" id="file-upload3" type="file" class="form-control"
+              (change)="uploadedFilebirthdate($event)" placeholder="Upload file" accept=".xlsx">
+            <input type="text" style="margin-right:10px;height: 35px;width: 80%;float:right; text-align: left;"
+              [(ngModel)]="excelpath3" [ngModelOptions]="{standalone: true}">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2 form-group">
+            <button type="button" class="btn btn-raised btn-info btn-block my-2" style="margin:auto" (click)="birth()">
+              <i class="ft-upload-cloud" style="margin-left: 10px;"></i>ورود فایل</button>
+          </div>
+          <div class="col-md-2 form-group" style="margin: auto;text-align: center;">
+            تعداد رکورد موجود در فایل: {{totalrow3}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="row" style="margin-top:20px">
+          <div class="col-12" style="float: right;">
+            <h5 style="float: right;">فعالسازی بیمه شده</h5>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12" style="float: right;">
+            <h6 style="float: right;">لطفا افراد مورد نظر را انتخاب کرده و سپس بر روی دکمه فعالسازی کلیک نمائید</h6>
+          </div>
+        </div>
+        
+        <div class="row">
+          <ng2-smart-table [settings]="alertsettings3" [source]="alertSource3"
+            style="font-family: 'iransans';text-align: right;" (deleteConfirm)="onDeleteConfirm($event)"
+            (editConfirm)="onSaveConfirm($event)" (createConfirm)="onCreateConfirm($event)"  (userRowSelect)="onRowSelect($event)">
+          </ng2-smart-table>
+        </div>
+        <div class="row">
+          <div class="col-2" style="float: right;">
+            <button type="button" class="btn btn-raised btn-info btn-block my-2" style="margin:auto" (click)="aciveperson()">
+              <i class="ft-upload-cloud" style="margin-left: 10px;"></i> فعالسازی</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <ng-template #content let-c="close" let-d="dismiss" style="direction: rtl; text-align: right;">
+    <div class="modal-header px-4" style="direction: rtl; text-align: right;">
+      <h4 class="modal-title">ثبت نام بیمه شده</h4>
+    </div>
+    <div class="modal-body px-4">
+      <div class="row text-right justify-content-md-center">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header">
+              <!-- <h4 class="card-title" id="from-actions-top-bottom-center"> ثبت قرارداد</h4> -->
+              <div class="alert alert-info" role="alert">
+                <strong> لطفا کلیه موارد زیر را تکمیل فرمائید </strong>
+              </div>
+
+
+            </div>
+            <div class="card-content">
+              <div class="px-3">
+                <form class="form">
+                  <div class="form-body">
+                    <div class="row" style="direction: rtl; text-align: right;">
+                      <div class="form-group col-12 mb-2">
+                        <label for="issueinput3">نوع فرد بیمه شده</label>
+                        <div class="row">
+                          <div class="col-7">
+                            <div class="related-widget-wrapper">
+                              <ng-select [items]="bskinds" [multiple]="false" bindLabel="name" [selectableGroup]="false"
+                                [selectableGroupAsModel]="false" [closeOnSelect]="true" bindValue="id"
+                                (change)="bskindchange()" [(ngModel)]="bskind" [ngModelOptions]="{standalone: true}"
+                                style="direction: rtl;text-align: right; width:100%; margin: auto;border: solid rgb(224, 219, 219) 1px; border-radius: 4px;"
+                                id="sgp">
+                                <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
+                                  <div style=" font-size: larger;color: darkblue;height: 30px;">
+                                    {{item.name }}
+                                  </div>
+                                </ng-template>
+
+                              </ng-select>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div *ngIf="err19" class="alert alert-danger" role="alert">
+                      <strong>{{errmsg19}} </strong>
+                    </div>
+                    <div *ngIf="isnotmain" class="row">
+                      <div class="form-group col-12 mb-2">
+                        <label for="eventInput1">کد ملی سرپرست</label>
+                        <input type="text" style="direction: rtl; text-align: right;" id="eventInput1"
+                          class="form-control" placeholder="کد ملی سرپرست" name="fullname" [(ngModel)]="mainnid"
+                          [ngModelOptions]="{standalone: true}" (change)="checkmainuser(mainnid)">
+                      </div>
+                    </div>
+                    <div *ngIf="errnid" class="alert alert-danger" role="alert">
+                      <strong>{{errmsg}} </strong>
+                    </div>
+                    <div *ngIf="validnid" class="row">
+                      <div class="form-group col-12 mb-2">
+                        <label for="eventInput1"> نام سرپرست</label>
+                        <input type="text" style="direction: rtl; text-align: right;" id="eventInput1"
+                          class="form-control" placeholder="نام سرپرست" name="fullname" [(ngModel)]="mainnidname"
+                          [ngModelOptions]="{standalone: true}" readonly>
+                      </div>
+                    </div>
+
+                    <div *ngIf="validnid" class="row" style="direction: rtl; text-align: right;">
+                      <div class="form-group col-12 mb-2">
+                        <label for="eventInput2"> نسبت با بیمه شده اصلی</label>
+                        <div class="row">
+                          <div class="col-7">
+                            <div class="related-widget-wrapper">
+                              <ng-select [items]="rels" [multiple]="false" bindLabel="name" [selectableGroup]="true"
+                                [selectableGroupAsModel]="true" [closeOnSelect]="true" bindValue="id"
+                                (change)="relchange()" [(ngModel)]="rel" [ngModelOptions]="{standalone: true}"
+                                style="direction: rtl;text-align: right; width:100%; margin: auto;border: solid rgb(224, 219, 219) 1px; border-radius: 4px;"
+                                id="sgp">
+                                <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
+                                  <div style=" font-size: larger;color: darkblue;height: 30px;">
+                                    {{item.name }}
+                                  </div>
+                                </ng-template>
+
+                              </ng-select>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div *ngIf="err2" class="alert alert-danger" role="alert">
+                      <strong>{{errmsg2}} </strong>
+                    </div>
+                    <div *ngIf="validnid">
+                      <div class="row" style="direction: rtl; text-align: right;">
+                        <div class="form-group col-12 mb-2">
+                          <label for="eventInput2"> بیمه گذار</label>
+                          <div class="row">
+                            <div class="col-7">
+                              <div class="related-widget-wrapper">
+                                <input type="text" style="direction: rtl; text-align: right;" id="eventInput3"
+                                  class="form-control" name="company" [(ngModel)]="companyname"
+                                  [ngModelOptions]="{standalone: true}" readonly>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div *ngIf="err3" class="alert alert-danger" role="alert">
+                        <strong>{{errmsg3}} </strong>
+                      </div>
+                      <div class="row" style="direction: rtl; text-align: right;">
+                        <div class="form-group col-12 mb-2">
+                          <label for="eventInput2"> قرارداد</label>
+                          <div class="row">
+                            <div class="col-7">
+                              <div class="related-widget-wrapper">
+                                <input type="text" style="direction: rtl; text-align: right;" id="eventInput3"
+                                  class="form-control" name="company" [(ngModel)]="contarctname"
+                                  [ngModelOptions]="{standalone: true}" readonly>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div *ngIf="err4" class="alert alert-danger" role="alert">
+                        <strong>{{errmsg4}} </strong>
+                      </div>
+                      <div class="row" style="direction: rtl; text-align: right;">
+                        <div class="form-group col-12 mb-2">
+                          <label for="issueinput3">طرح</label>
+                          <div class="row">
+                            <div class="col-7">
+                              <div class="related-widget-wrapper">
+                                <input type="text" style="direction: rtl; text-align: right;" id="eventInput3"
+                                  class="form-control" name="company" [(ngModel)]="planname"
+                                  [ngModelOptions]="{standalone: true}" readonly>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div *ngIf="ismain">
+                      <div *ngIf="err5" class="alert alert-danger" role="alert">
+                        <strong>{{errmsg5}} </strong>
+                      </div>
+                      <div class="row" style="direction: rtl; text-align: right;">
+                        <div class="form-group col-12 mb-2">
+                          <label for="eventInput2"> بیمه گذار</label>
+                          <div class="row">
+                            <div class="col-7">
+                              <div class="related-widget-wrapper">
+                                <ng-select [items]="companies" [multiple]="false" bindLabel="name"
+                                  [selectableGroup]="true" [selectableGroupAsModel]="true" [closeOnSelect]="true"
+                                  bindValue="id" (change)="companychange()" [(ngModel)]="comp"
+                                  [ngModelOptions]="{standalone: true}"
+                                  style="direction: rtl;text-align: right; width:100%; margin: auto;border: solid rgb(224, 219, 219) 1px; border-radius: 4px;"
+                                  id="sgp">
+                                  <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
+                                    <div style=" font-size: larger;color: darkblue;height: 30px;">
+                                      {{item.name }}
+                                    </div>
+                                  </ng-template>
+
+                                </ng-select>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div *ngIf="err6" class="alert alert-danger" role="alert">
+                        <strong>{{errmsg6}} </strong>
+                      </div>
+                      <div *ngIf="companyselected" class="row" style="direction: rtl; text-align: right;">
+                        <div class="form-group col-12 mb-2">
+                          <label for="eventInput2"> قرارداد</label>
+                          <div class="row">
+                            <div class="col-7">
+                              <div class="related-widget-wrapper">
+                                <ng-select [items]="contracts" [multiple]="fasle" bindLabel="name"
+                                  [selectableGroup]="false" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                  bindValue="id" (change)="contractchange()" [(ngModel)]="cont"
+                                  [ngModelOptions]="{standalone: true}"
+                                  style="direction: rtl;text-align: right; width:100%; margin: auto;border: solid rgb(224, 219, 219) 1px; border-radius: 4px;"
+                                  id="sgp">
+                                  <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
+                                    <div style=" font-size: larger;color: darkblue;height: 30px;">
+                                      {{item.name }}
+                                    </div>
+                                  </ng-template>
+
+                                </ng-select>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div *ngIf="err7" class="alert alert-danger" role="alert">
+                        <strong>{{errmsg7}} </strong>
+                      </div>
+                      <div *ngIf="contractselected" class="row" style="direction: rtl; text-align: right;">
+                        <div class="form-group col-12 mb-2">
+                          <label for="issueinput3">طرح</label>
+                          <div class="row">
+                            <div class="col-7">
+                              <div class="related-widget-wrapper">
+                                <ng-select [items]="plans" [multiple]="false" bindLabel="name" [selectableGroup]="false"
+                                  [selectableGroupAsModel]="false" [closeOnSelect]="true" bindValue="id"
+                                  (change)="planchange()" [(ngModel)]="plan" [ngModelOptions]="{standalone: true}"
+                                  style="direction: rtl;text-align: right; width:100%; margin: auto;border: solid rgb(224, 219, 219) 1px; border-radius: 4px;"
+                                  id="sgp">
+                                  <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
+                                    <div style=" font-size: larger;color: darkblue;height: 30px;">
+                                      {{item.name }}
+                                    </div>
+                                  </ng-template>
+
+                                </ng-select>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div *ngIf="err8" class="alert alert-danger" role="alert">
+                      <strong>{{errmsg8}} </strong>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-12 mb-2">
+                        <label for="eventInput3">کد ملی</label>
+                        <input type="text" style="direction: rtl; text-align: right;" id="eventInput3"
+                          class="form-control" placeholder="کد ملی" name="company" [(ngModel)]="persnid"
+                          [ngModelOptions]="{standalone: true}">
+                      </div>
+                    </div>
+                    <div *ngIf="err9" class="alert alert-danger" role="alert">
+                      <strong>{{errmsg9}} </strong>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-12 mb-2">
+                        <label for="eventInput1">نام</label>
+                        <input type="text" style="direction: rtl; text-align: right;" id="eventInput1"
+                          class="form-control" placeholder="نام" name="fullname" [(ngModel)]="fname"
+                          [ngModelOptions]="{standalone: true}">
+                      </div>
+                    </div>
+                    <div *ngIf="err10" class="alert alert-danger" role="alert">
+                      <strong>{{errmsg10}} </strong>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-12 mb-2">
+                        <label for="eventInput3">نام خانوادگی</label>
+                        <input type="text" style="direction: rtl; text-align: right;" id="eventInput3"
+                          class="form-control" placeholder="نام خانوادگی" name="company" [(ngModel)]="lname"
+                          [ngModelOptions]="{standalone: true}">
+                      </div>
+                    </div>
+                    <div *ngIf="err11" class="alert alert-danger" role="alert">
+                      <strong>{{errmsg11}} </strong>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-12 mb-2">
+                        <label for="eventInput3">نام پدر</label>
+                        <input type="text" style="direction: rtl; text-align: right;" id="eventInput3"
+                          class="form-control" placeholder="نام پدر" name="company" [(ngModel)]="father"
+                          [ngModelOptions]="{standalone: true}">
+                      </div>
+                    </div>
+                    <div *ngIf="err12" class="alert alert-danger" role="alert">
+                      <strong>{{errmsg12}} </strong>
+                    </div>
+                    <div class="row" style="direction: rtl; text-align: right;">
+                      <div class="form-group col-12 mb-2">
+                        <label for="eventInput3">جنسیت </label>
+                        <div class="row">
+                          <div class="col-7">
+                            <div class="related-widget-wrapper">
+                              <ng-select [items]="genders" [multiple]="false" bindLabel="name" [selectableGroup]="false"
+                                [selectableGroupAsModel]="false" [closeOnSelect]="true" bindValue="id"
+                                (change)="genderchange()" [(ngModel)]="gender" [ngModelOptions]="{standalone: true}"
+                                style="direction: rtl;text-align: right; width:100%; margin: auto;border: solid rgb(224, 219, 219) 1px; border-radius: 4px;"
+                                id="sgp">
+                                <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
+                                  <div style=" font-size: larger;color: darkblue;height: 30px;">
+                                    {{item.name }}
+                                  </div>
+                                </ng-template>
+                              </ng-select>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div *ngIf="err13" class="alert alert-danger" role="alert">
+                      <strong>{{errmsg13}} </strong>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-12 mb-2">
+                        <label for="eventInput3">موبایل</label>
+                        <input type="text" style="direction: rtl; text-align: right;" id="eventInput3"
+                          class="form-control" placeholder="موبایل" name="company" [(ngModel)]="mobile"
+                          [ngModelOptions]="{standalone: true}">
+                      </div>
+                    </div>
+                    <div *ngIf="err14" class="alert alert-danger" role="alert">
+                      <strong>{{errmsg14}} </strong>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-12 mb-2">
+                        <label for="eventInput3">تاریخ تولد</label>
+                        <br>
+                        <dp-date-picker id="projectinput2" class="form-control"
+                          style="border: solid rgb(224, 219, 219) 1px; border-radius: 4px; font-family: myFirstFont0;"
+                          dir="rtl" [(ngModel)]="birthday" mode="day" placeholder="تاریخ تولد" theme="dp-material"
+                          [ngModelOptions]="{standalone: true}">
+                        </dp-date-picker>
+                      </div>
+                    </div>
+                    <div *ngIf="err15" class="alert alert-danger" role="alert">
+                      <strong>{{errmsg15}} </strong>
+                    </div>
+                    <div class="row" style="direction: rtl; text-align: right;">
+                      <div class="form-group col-12 mb-2">
+                        <label for="eventInput3">استان</label>
+                        <ng-select [items]="provinces" [multiple]="false" bindLabel="name" [selectableGroup]="false"
+                          [selectableGroupAsModel]="false" [closeOnSelect]="true" bindValue="id"
+                          (change)="provincechange()" [(ngModel)]="province" [ngModelOptions]="{standalone: true}"
+                          style="direction: rtl;text-align: right; width:100%; margin: auto;border: solid rgb(224, 219, 219) 1px; border-radius: 4px;"
+                          id="sgp">
+                          <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
+                            <div style=" font-size: larger;color: darkblue;height: 30px;">
+                              {{item.name }}
+                            </div>
+                          </ng-template>
+                        </ng-select>
+                      </div>
+                    </div>
+                    <div *ngIf="err16" class="alert alert-danger" role="alert">
+                      <strong>{{errmsg16}} </strong>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-12 mb-2">
+                        <label for="eventInput3">آدرس</label>
+                        <input type="text" style="direction: rtl; text-align: right;" id="eventInput3"
+                          class="form-control" placeholder="آدرس" name="company" [(ngModel)]="address"
+                          [ngModelOptions]="{standalone: true}">
+                      </div>
+                    </div>
+                    <div *ngIf="err17" class="alert alert-danger" role="alert">
+                      <strong>{{errmsg17}} </strong>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-12 mb-2">
+                        <label for="eventInput3">شماره شبا</label>
+                        <input type="text" style="direction: rtl; text-align: right;" id="eventInput3"
+                          class="form-control" placeholder="شماره شبا" name="company" [(ngModel)]="shaba"
+                          [ngModelOptions]="{standalone: true}">
+                      </div>
+                    </div>
+                  </div>
+                  <div *ngIf="err18" class="alert alert-danger" role="alert">
+                    <strong>{{errmsg18}} </strong>
+                  </div>
+                  <br>
+                  <div class="row">
+                    <div class="form-group col-12 mb-2" style="direction: rtl;text-align: right;">
+                      <label> لطفا فایل تصویر پروفایل را انتخاب کنید</label>
+                      <br />
+                      <label for="file-upload" class="btn btn-raised btn-primary" style="cursor: pointer;">
+                        <i class="fa fa-check-square-o"></i>انتخاب فایل
+                      </label>
+                      <input id="file-upload" type='file' (change)="contSelectFile($event)">
+                    </div>
+                    <div class="form-group col-12 mb-2">
+                      <div class="contprogress" *ngIf="conprogress">
+                        <div class="progress-bar" [style.width]="progress + '%'">{{contprogress}}%</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <img *ngFor='let url of conturls' [src]="url" height="200" style="margin:10px;"> <br />
+                  </div>
+                  <div class="form-actions center">
+                    <button type="button" class="btn btn-raised btn-warning mr-1" (click)="d('Cross click')">
+                      <i class="ft-x"></i> انصراف
+                    </button>
+                    <button type="button" class="btn btn-raised btn-primary" (click)="save()">
+                      <i class="fa fa-check-square-o"></i> ذخیره
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>

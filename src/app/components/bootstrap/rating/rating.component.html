@@ -1,0 +1,80 @@
+<div class="modal-header px-4" style="direction: rtl; text-align: right;">
+  <h4 class="modal-title">ثبت خدمت جدید</h4>
+
+</div>
+<div class="modal-body px-4">
+  <div class="row text-right justify-content-md-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <!-- <h4 class="card-title" id="from-actions-top-bottom-center"> ثبت قرارداد</h4> -->
+          <div class="alert alert-info" role="alert">
+            <strong> لطفا کلیه موارد زیر را تکمیل فرمائید </strong>
+          </div>
+        </div>
+        <div class="card-content">
+          <div class="px-3">
+            <form class="form">
+              <div class="form-body">
+                <div class="row">
+                  <div class="form-group col-12 mb-2">
+                    <label for="eventInput1">عنوان خدمت</label>
+                    <input type="text" style="direction: rtl; text-align: right;" id="eventInput1" class="form-control"
+                      placeholder="نام" name="fullname">
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="form-group col-12 mb-2">
+                    <label for="eventInput3">توضیحات خدمت</label>
+                    <input type="text" style="direction: rtl; text-align: right;" id="eventInput3" class="form-control"
+                      placeholder="شرکت" name="company">
+                  </div>
+                </div>
+                <div class="row" style="direction: rtl; text-align: right;">
+                  <div class="form-group col-12 mb-2">
+                    <label for="eventInput2"> انتخاب تعهد</label>
+                    <div class="row">
+                      <div class="col-4">
+                        <div class="related-widget-wrapper">
+                          <!-- <ng-select [items]="items" [multiple]="true" bindLabel="subserv" groupBy="serv"
+                            [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false"
+                            bindValue="id" (change)="getValues()" [(ngModel)]="selected"
+                            style="direction: rtl;text-align: right; width:100%; margin: auto;" id="sgp">
+                            <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
+                              <div style=" font-size: larger;color: darkblue;height: 30px;">
+                                {{item.serv }}
+                              </div>
+                            </ng-template>
+                            <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index" id="sgp">
+                              <div style="padding-right: 10px;">
+                                <input id="item-{{index}}" type="checkbox" [ngModel]="item$.selected" id="sgp" />
+                                {{item.subserv}}
+                              </div>
+                            </ng-template>
+                          </ng-select> -->
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <button type="button" class="btn btn-raised btn-primary">
+                          <i class="fa fa-check-square-o"></i> ایجاد تعهد جدید
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-actions center">
+                  <!-- <button type="button" class="btn btn-raised btn-warning mr-1" (click)="d('Cross click')">
+                    <i class="ft-x"></i> انصراف
+                  </button> -->
+                  <button type="button" class="btn btn-raised btn-primary">
+                    <i class="fa fa-check-square-o"></i> ذخیره
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

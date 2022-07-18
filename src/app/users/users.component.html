@@ -1,0 +1,156 @@
+<div class="container" style=" border-radius: 8px;box-shadow: rgb(102, 102, 102) 5px;border: gray solid 1px;background-color: white;">
+    <div class="row">
+        <div class="col-sm-12" style="direction: rtl;text-align: right;">
+            <ng2-smart-table [settings]="reporttable" [source]="alertSource" id="excel-table"
+                style="font-family: 'iransans'" style="font-family: 'iransans'"
+               
+                 (custom)="regclaim($event)"></ng2-smart-table>
+        </div>
+    </div>
+
+</div>
+<ng-template #content let-c="close" let-d="dismiss" style="direction: rtl; text-align: right;">
+    <div class="modal-header px-4" style="direction: rtl; text-align: right;">
+        <h4 class="modal-title"> ویرایش سطوح دسترسی</h4>
+    </div>
+    <div class="modal-body px-4">
+        <div class="row text-right justify-content-md-center">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="alert alert-info" role="alert">
+
+                            <strong> اطلاعات کاربر</strong>
+                            <br>
+                            <strong> کد ملی: {{nid}}</strong>
+                            <br>
+                            <strong> کاربر: {{name}}</strong>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="px-3">
+                            <form class="form">
+                                <div class="form-body">
+                                    <table class="table table-bordered "
+                                        style="text-align: right;font-family: iransans;direction: rtl;">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" style="width: 50px;"></th>
+                                                <th scope="col" style="width: 250px;">عنوان قراداد</th>
+                                                <th scope="col" style="width: 600px;">انتخاب سطح
+                                                    دسترسی</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let c of cont ;let i= index">
+                                                <td>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" class="custom-control-input" id="{{i}}"
+                                                            (change)="conselect(i)" [(ngModel)]="amarallflag[i]"
+                                                            [ngModelOptions]="{standalone: true}">
+                                                        <label class="custom-control-label" for="{{i}}"></label>
+                                                    </div>
+                                                </td>
+                                                <td>{{c.title}}</td>
+                                                <td>
+                                                    <ng-select [items]="c.access" [multiple]="true" bindLabel="title" groupBy="gp"
+                                                        [selectableGroup]="true" [selectableGroupAsModel]="false"
+                                                        [selectableGroup]="false" [selectableGroupAsModel]="false"
+                                                        [closeOnSelect]="false" bindValue="id"
+                                                        (change)="getValues1(c.selected )" placeholder="سطح دسترسی"
+                                                        [(ngModel)]="c.selected" [ngModelOptions]="{standalone: true}"
+                                                        style="direction: rtl;text-align: right; width:100%; margin: auto; ">
+                                                        <ng-template ng-option-tmp let-item="item" let-item$="item$"
+                                                            let-index="index">
+                                                            <div style="padding-right: 10px;">
+                                                                <input id="item-{{index}}" type="checkbox"
+                                                                    [ngModel]="item$.selected"
+                                                                    [ngModelOptions]="{standalone: true}" />
+                                                                {{item.title }}
+                                                            </div>
+                                                        </ng-template>
+                                                    </ng-select>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <div class="form-actions center">
+                                        <button type="button" class="btn btn-raised btn-warning mr-1"
+                                            (click)="cancel()">
+                                            <i class="ft-x"></i> انصراف
+                                        </button>
+                                        <button type="button" class="btn btn-raised btn-primary" (click)="save()">
+                                            <i class="fa fa-check-square-o"></i> ذخیره
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+<ng-template #showdetail let-c="close" let-d="dismiss" style="direction: rtl; text-align: right;">
+    <div class="modal-header px-4" style="direction: rtl; text-align: right;">
+        <h4 class="modal-title">نمایش سطوح دسترسی</h4>
+    </div>
+    <div class="modal-body px-4">
+        <div class="row text-right justify-content-md-center">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="alert alert-info" role="alert">
+                            <strong> اطلاعات کاربر</strong>
+                            <br>
+                            <strong> کد ملی: {{nid}}</strong>
+                            <br>
+                            <strong> کاربر: {{name}}</strong>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="px-3">
+                            <form class="form">
+                                <div class="form-body">
+                                    <table class="table table-bordered "
+                                        style="text-align: right;font-family: iransans;direction: rtl;">
+                                        <thead>
+                                            <tr>
+                                                
+                                                <th scope="col" style="width: 250px;">عنوان قراداد</th>
+                                                <th scope="col" style="width: 600px;"> سطح
+                                                    دسترسی</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let c of contshow">
+                                                <td>{{c.title}}</td>
+                                                <td>
+                                                    <div *ngFor="let ac of c.access">
+                                                         <p><strong>* {{ac.title}} </strong></p>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <div class="form-actions center">
+                                        <button type="button" class="btn btn-raised btn-warning mr-1"
+                                            (click)="cancel()">
+                                            <i class="ft-x"></i> انصراف
+                                        </button>
+                                        <button type="button" class="btn btn-raised btn-primary" (click)="save()">
+                                            <i class="fa fa-check-square-o"></i> ذخیره
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

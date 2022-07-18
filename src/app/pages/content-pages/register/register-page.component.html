@@ -1,0 +1,82 @@
+<!--Registration Page Starts-->
+
+<section id="regestration">
+  <div class="container-fluid">
+    <div class="row full-height-vh m-0">
+      <div class="col-12 d-flex align-items-center justify-content-center">
+        <div class="card">
+          <div class="card-content">
+            <div class="card-body register-img">
+              <div class="row m-0">
+                <div class="col-lg-6 d-none d-lg-block py-2 px-3 text-center">
+                  <img src="../../assets/img/gallery/register.png" alt="" class="img-fluid mt-3 pl-3" width="400"
+                    height="230" />
+                </div>
+                <div class="col-lg-6 col-md-12 pt-3 px-4 bg-white">
+                  <h4 class="card-title mb-2">تغییر گذر واژه</h4>
+                  <p class="card-text mb-3">
+                    لطفا پس از وارد کردن گذرواژه فعلی، گذروازه جدید را وارد نمائید. توجه بفرمائید گذرواژه باید حداقل 8
+                    رقم باشد.
+                  </p>
+                  <div *ngIf="invalidoldpass" class="alert alert-danger" role="alert">
+                    <strong>{{errormsg1}} </strong>
+                  </div>
+                  <div *ngIf="newpasscom" class="alert alert-danger" role="alert">
+                    <strong>{{errormsg4}} </strong>
+                  </div>
+                  <div *ngIf="newpassnotmatch" class="alert alert-danger" role="alert">
+                    <strong>{{errormsg2}} </strong>
+                  </div>
+                  <div *ngIf="newpasstooshort" class="alert alert-danger" role="alert">
+                    <strong>{{errormsg3}} </strong>
+                  </div>
+                  <div *ngIf="notsave">
+                    <input type="password" class="form-control mb-3" placeholder="گذرواژه قبلی" [(ngModel)]="oldpass" />
+                    <input type="password" class="form-control mb-3" placeholder="گذرواژه جدید"
+                      [(ngModel)]="newpass1" />
+                    <input type="password" class="form-control mb-3" placeholder="تکرار گذرواژه"
+                      [(ngModel)]="newpass2" />
+
+                    <div class="fg-actions d-flex justify-content-between">
+                      <div class="login-btn">
+                        <button class="btn btn-outline-primary">
+                          <a class="text-decoration-none" [routerLink]="['/dashboard/dashboard1']">
+                            بازگشت به صفحه اصلی
+                          </a>
+                        </button>
+                      </div>
+                      <div class="recover-pass">
+                        <button class="btn btn-primary">
+                          <a class="text-decoration-none text-white" (click)="changepass()">
+                            ذخیره
+                          </a>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div *ngIf="saved">
+                    <div class="alert alert-success" role="alert">
+                      <strong>گذرواژه با موفقیت تغییر کرد!</strong>
+                    </div>
+                    <div style="margin: auto;text-align: center;">
+                      <div class="fg-actions d-flex justify-content-between">
+                        <div class="login-btn">
+                          <button class="btn btn-success">
+                            <a class="text-decoration-none" [routerLink]="['/dashboard/dashboard1']">
+                              بازگشت به صفحه اصلی
+                            </a>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--Registration Page Ends-->

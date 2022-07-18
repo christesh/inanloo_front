@@ -1,0 +1,54 @@
+@import "~bootstrap/dist/css/bootstrap.css"; 
+@font-face {
+    font-family: myFirstFont0;
+    src: url('../../../../assets/fonts/BNazanin.ttf');
+  }
+  @font-face {
+    font-family: myFirstFont1;
+    src: url('../../../../assets/fonts/BRoyaBd.ttf');
+  }
+  @font-face {
+    font-family: myFirstFont2;
+    src: url('../../../../assets/fonts/BYekan.ttf');
+  }
+  
+  img.profile {
+     background-image: url('../../../../assets/images/profile.png');
+     background-size:100px 100px;
+  }
+  img.profile1 {
+    background-image: url('../../../../assets/images/profile.png');
+    background-size:75px 75px;
+ }
+
+button {
+    margin: 8px 0px;
+}
+#gp{
+  font-family: myFirstFont1;
+  font-size: 18px;
+}
+#sgp{
+  font-family: myFirstFont0;
+  font-size: 14px;
+}
+
+.combo-section {
+   display: bl;
+    margin: 24px;
+    width: 320px;
+    height: 50px;
+    font-family: myFirstFont1;
+    direction: rtl;
+}
+
+
+
+.cities-container {
+    max-height: 200px;
+    overflow-y: auto;
+    direction: rtl;
+    igx-card {
+        margin: 8px 8px 8px 0;
+    }
+}

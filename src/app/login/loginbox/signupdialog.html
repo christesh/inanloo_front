@@ -1,0 +1,39 @@
+<div class="container-fluid" style="margin: auto;text-align: center;">
+    <form [formGroup]="form">
+        <!-- <div id="logo"></div> -->
+        <h5 style="font-family:iransans ;margin: auto;font-size: 14px;font-weight: 500;">
+            ثبت نام
+        </h5>
+        <br>
+        <mat-form-field class="full-width-input" style="text-align:right; direction:rtl;font-family:iransans ;">
+            <input matInput placeholder=" تلفن همراه" formControlName="mobilenumber" required style="font-size: 12px;">
+            <mat-error *ngIf="isFieldInvalid('mobilenumber')">
+                لطفا شماره تلفن همراه خود را وارد کنید!
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field class="full-width-input" style="text-align:right; direction:rtl;font-family:iransans ;">
+            <input matInput placeholder=" نام" formControlName="name" required style="font-size: 12px;">
+            <mat-error *ngIf="isFieldInvalid('name')">
+                لطفا نام خود را وارد کنید!
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field class="full-width-input" style="text-align:right; direction:rtl;font-family:iransans ;">
+            <input matInput placeholder=" نام خانوادگی" formControlName="family" required style="font-size: 12px;">
+            <mat-error *ngIf="isFieldInvalid('family')">
+                لطفا نام خانوادگی خود را وارد کنید!
+            </mat-error>
+        </mat-form-field>
+        <br>
+        <div class="row">
+            <div class="col-md-12" style="margin:auto;text-align: center;font-family:iransans;direction: rtl;">
+
+                <button id="butt1" mat-raised-button color="accent" style="font-size: 12px;font-family:iransans;margin:10px ;width: 70px;" (click)="signup()">ثبت
+                    نام</button>
+                <button id="butt1" mat-raised-button color="primery" style="font-size: 12px;font-family:iransans;margin:10px ;width: 70px;" (click)="close()">انصراف</button>
+            </div>
+        </div>
+
+
+    </form>
+
+</div>
