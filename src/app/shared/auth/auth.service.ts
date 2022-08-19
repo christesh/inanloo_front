@@ -2,7 +2,7 @@ import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
+import { environment } from '../../../environments/environment';
 
 
 @Injectable({
@@ -10,8 +10,8 @@ import { Observable } from 'rxjs';
 })
 export class AuthService {
   token: string;
-  // baseurl = "http://api.bimeh.plus";
-  baseurl = "http://127.0.0.1:8000";
+  private baseurl= environment.API_URL;
+
   httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
 
   constructor(private http: HttpClient) {}

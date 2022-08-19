@@ -48,50 +48,50 @@ export class ForgotPasswordPageComponent {
         this.showpass != this.showpass
     }
 
-    sendsms() {
-        console.log(this.user, this.mobile)
-        this.api.sendsms(this.user, this.mobile).subscribe(
-            res => {
-                console.log(res)
-                if (res['result'] == "username and mobile number not match") {
-                    this.errmsg = res['result']
-                    this.errbox = true
-                }
-                else {
-                    this.passok = false;
-                    this.errbox = false
-                    this.getsms = true
-                    this.getmobile = false
-                    this.changepass = false
-                }
-            },
-            err => {
-                console.log(err)
-            }
-        )
-    }
-    checksms() {
-        console.log(this.user, this.mobile, this.smscode)
-        this.api.checksms(this.user, this.mobile, this.smscode).subscribe(
-            res => {
-                console.log(res)
-                if (res['result'] == "code does not match") {
-                    this.errmsg = res['result']
-                    this.errbox = true
-                }
-                else {
-                    this.passok = false;
-                    this.errbox = false
-                    this.getsms = false
-                    this.getmobile = false
-                    this.changepass = true
-                }
-            },
-            err => {
-                console.log(err)
-            }
-        )
-    }
+    // sendsms() {
+    //     console.log(this.user, this.mobile)
+    //     this.api.sendsms(this.user, this.mobile).subscribe(
+    //         res => {
+    //             console.log(res)
+    //             if (res['result'] == "username and mobile number not match") {
+    //                 this.errmsg = res['result']
+    //                 this.errbox = true
+    //             }
+    //             else {
+    //                 this.passok = false;
+    //                 this.errbox = false
+    //                 this.getsms = true
+    //                 this.getmobile = false
+    //                 this.changepass = false
+    //             }
+    //         },
+    //         err => {
+    //             console.log(err)
+    //         }
+    //     )
+    // }
+    // checksms() {
+    //     console.log(this.user, this.mobile, this.smscode)
+    //     this.api.checksms(this.user, this.mobile, this.smscode).subscribe(
+    //         res => {
+    //             console.log(res)
+    //             if (res['result'] == "code does not match") {
+    //                 this.errmsg = res['result']
+    //                 this.errbox = true
+    //             }
+    //             else {
+    //                 this.passok = false;
+    //                 this.errbox = false
+    //                 this.getsms = false
+    //                 this.getmobile = false
+    //                 this.changepass = true
+    //             }
+    //         },
+    //         err => {
+    //             console.log(err)
+    //         }
+    //     )
+    // }
 
     changepass1() {
         console.log(this.user, this.pass1, this.pass2)

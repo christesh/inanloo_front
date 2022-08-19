@@ -7,14 +7,15 @@ import { personauth } from '../../../Models/personauth'
 import { map } from 'rxjs/operators';
 import { options } from 'app/shared/data/dropdowns';
 import { claim } from '../../../Models/claim'
-
+import { environment } from '../../../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
   public p1: person;
   // baseurl = "http://api.bimeh.plus";
-  baseurl = "http://127.0.0.1:8000";
+  private baseurl= environment.API_URL;
+  // baseurl = "http://localhost:8000";
 
   httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
 

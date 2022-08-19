@@ -14,6 +14,7 @@
 }
 
 @import '~@angular/material/theming';
+
 #myBtn {
     font-family: myFirstFont2;
     font-size: 14px;
@@ -57,13 +58,26 @@ mat-card {
     align-items: center;
 }
 
-#bg {
+#bg1 {
     background-image: url('../../assets/img/login-bg/loginpagebg.jpg');
     direction: rtl;
     height: 100%;
     background-size: contain;
     background-color: white;
     background-position: bottom left;
+    background-repeat: no-repeat;
+}
+
+#bg2 {
+    background: url('../../assets/img/login-bg/loginpagebg1.jpg') no-repeat top center;
+    overflow: hidden;
+    background-color: #00026dc5;
+    background-blend-mode: multiply;
+    // background-image: url('../../assets/img/login-bg/loginpagebg.jpg');
+    direction: rtl;
+    height: 100%;
+    background-size: cover;
+    background-position:  right;
     background-repeat: no-repeat;
 }
 

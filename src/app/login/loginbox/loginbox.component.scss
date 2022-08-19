@@ -49,12 +49,18 @@ input::placeholder {
     /* Black w/ opacity */
 }
 
+.flex-container {
+    display: flex;
+    justify-content: center;
+  }
+  
+.flex-container > div {
+    margin: 10px;
+    text-align: center;
+  }
 mat-card {
-    max-width: 250px;
-    /* background-color: rgb(240, 240, 240); */
-    /* border-width:1px; */
+    max-width: 500px;
     border-radius: 8px;
-    box-shadow: 20px 20px 20px 10px #8888;
     margin: auto;
     text-align: center;
     font-family: myFirstFont2;
@@ -62,22 +68,85 @@ mat-card {
     opacity: 1;
 }
 
+.footer {
+    max-width: 500px;
+    height: 60px;
+    background-color: rgb(167, 167, 167);
+    border-radius: 8px; 
+    margin-top: 5px;
+    text-align: center;
+    font-family: myFirstFont2;
+    font-size: larger;
+    opacity: 1;
+}
+.fa:hover{
+    color:#ffffff;
+}
+.fa{
+    color:#666666;
+}
 
 /* .signin-content {
       padding: 60px 1rem;
     } */
 
 .full-width-input {
-    width: 100%;
+    width: 60%;
 }
 
 .full-width-input {
-    font-family: myFirstFont1;
+    font-family: iransans;
     font-size: 12px;
 }
 
 #butt {
     font-family: myFirstFont2;
+}
+@media (min-width: 800px) {
+    #supporttel {
+        border-left: #ffffff 2px solid;
+        margin: auto;
+        text-align: center;
+    }
+    .footer {
+        max-width: 500px;
+        height: 60px;
+        background-color: rgb(167, 167, 167);
+        border-radius: 8px; 
+        margin-top: 5px;
+        text-align: center;
+        font-family: myFirstFont2;
+        font-size: larger;
+        opacity: 1;
+    }
+}
+@media (max-width: 800px) {
+    #supporttel {
+        margin: auto;
+        text-align: center;
+    }
+    .footer {
+        max-width: 500px;
+        height: 90px;
+        background-color: rgb(167, 167, 167);
+        border-radius: 8px; 
+        margin-top: 5px;
+        text-align: center;
+        font-family: myFirstFont2;
+        font-size: larger;
+        opacity: 1;
+    }
+}
+
+mat-button-toggle{
+    width:80px ;
+    font-size: 14px;
+    font-weight: 600;
+    color: #00016d;
+}
+
+mat-button-toggle:focus{
+    border: #ffffff 2px solid;
 }
 
 #bg {

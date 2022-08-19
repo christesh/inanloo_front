@@ -6,17 +6,74 @@ import {person} from '../../Models/person'
 import { map } from 'rxjs/operators';
 import { options } from 'app/shared/data/dropdowns';
 import { personauth } from 'app/Models/personauth';
-
+import { json } from '../../pages/content-pages/maintenance/Modelsjsons/Json';
+import {designModel} from '../../pages/content-pages/maintenance/DesignModel';
+import { environment } from '../../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
   public p1:person;
+  
   // baseurl = "http://api.bimeh.plus";
-  baseurl = "http://127.0.0.1:8000";
+  private baseurl= environment.API_URL;
+  // baseurl = "http://localhost:8000";
   httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
 
   constructor(private http: HttpClient) { }
+
+  sendsms(mob:string): Observable<any> {
+    const body = { mobile: mob };
+    console.log(body)
+    return this.http.post(this.baseurl + '/personal/sendsms/',body,{headers: new HttpHeaders({
+      'Content-Type':  'application/json' 
+    })});   
+  }
+
+  justsms(mobile:string): Observable<any>{
+    const body = { mobile: mobile };
+    return this.http.post(this.baseurl + '/personal/justsms/',body,{headers: new HttpHeaders({
+      'Content-Type':  'application/json' 
+    })});
+  }
+  register(mob:string,fname:string,lname:string,nationalid:string,usercategory:number): Observable<any> {
+    const body = { username: mob,fname:fname,lname:lname,nationalid:nationalid,usercategory:usercategory };
+    return this.http.post(this.baseurl + '/personal/register/',body,{headers: new HttpHeaders({
+      'Content-Type':  'application/json' 
+    })});
+   
+  }
+
+  GetPersonCategories(): Observable<any> {
+    //this.httpHeaders1.append('Authorization','Token b237ebb38a864aa445987beb7b31d4fc49b09abc');
+    return this.http.get(this.baseurl + '/personal/GetPersonCategories/',{headers: new HttpHeaders({
+      'Content-Type':  'application/json' 
+    })});
+   
+  }
+  checksms(code:string,mobile:string): Observable<any> {
+    //this.httpHeaders1.append('Authorization','Token b237ebb38a864aa445987beb7b31d4fc49b09abc');
+    const body = { code: code ,mobile:mobile};
+    return this.http.post(this.baseurl + '/personal/checksms/',body,{headers: new HttpHeaders({
+      'Content-Type':  'application/json' 
+    })});
+   
+  }
+  ceratedesignjson(modelName: string,version:string,  fieldsjson:any): Observable<any>{
+    
+    const body = { modelName: modelName,modelTitle:version, fieldsJson:fieldsjson};
+    return this.http.post(this.baseurl + '/baseinfo/CreateDesignJson/',body,{headers: new HttpHeaders({
+      'Content-Type':  'application/json',     
+    })}); 
+  }
+  getalldesignjson(): Observable<any> {
+    return this.http.get(this.baseurl + '/baseinfo/GetAllDesignJson/', {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        
+      })
+    });
+  }
 
   getUserID(tokenk: string): Observable<any> {
     //this.httpHeaders1.append('Authorization','Token b237ebb38a864aa445987beb7b31d4fc49b09abc');
@@ -134,13 +191,7 @@ export class ApiService {
     })});
   }
   
-  sendsms(user:string,mobile:string): Observable<any> {
-    const body = { NID: user,mobile: mobile };
-    return this.http.post(this.baseurl + '/darman/sendsms/',body,{headers: new HttpHeaders({
-      'Content-Type':  'application/json',  
-       
-    })});
-  }
+  
 
   changepass(user:string,pass:string): Observable<any> {
     const body = { NID: user,pass: pass };
@@ -150,12 +201,7 @@ export class ApiService {
     })});
   }
 
-  checksms(user:string,mobile:string,code:string): Observable<any> {
-    const body = { NID: user,mobile: mobile ,code:code};
-    return this.http.post(this.baseurl + '/darman/checksms/',body,{headers: new HttpHeaders({
-      'Content-Type':  'application/json',  
-    })});
-  }
+
 
   getPersonauth(tokenk: string): Observable<any> {
     //this.httpHeaders1.append('Authorization','Token b237ebb38a864aa445987beb7b31d4fc49b09abc');

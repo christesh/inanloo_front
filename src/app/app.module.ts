@@ -29,7 +29,7 @@ import { DragulaService } from "ng2-dragula";
 import { AuthService } from "./shared/auth/auth.service";
 import { AuthGuard } from "./shared/auth/auth-guard.service";
 import { LoginComponent } from './login/login.component';
-import { LoginboxComponent,SignUPDialog } from '../app/login/loginbox/loginbox.component';
+import { ForgetPassDialog, LoginboxComponent,SignUPDialog } from '../app/login/loginbox/loginbox.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
 // import {JdatePipe} from 'ngx-persian';
@@ -54,6 +54,9 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 // import { environment } from '../environments/environment';
 // import { AsyncPipe } from '../../node_modules/@angular/common';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatButtonToggleModule} from '@angular/material/button-toggle'
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -65,8 +68,10 @@ export function createTranslateLoader(http: HttpClient) {
 }
 
 @NgModule({
-  declarations: [AppComponent,SignUPDialog, FullLayoutComponent, ContentLayoutComponent, LoginComponent, LoginboxComponent, BorderedComponent],
+  declarations: [AppComponent,SignUPDialog,ForgetPassDialog, FullLayoutComponent, ContentLayoutComponent, LoginComponent, LoginboxComponent, BorderedComponent],
   imports: [
+    MatSlideToggleModule,
+    MatButtonToggleModule,
     MatDialogModule,
     MatNativeDateModule,
     MatSnackBarModule,
@@ -122,7 +127,7 @@ export function createTranslateLoader(http: HttpClient) {
     { provide: PERFECT_SCROLLBAR_CONFIG, useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG },
 
   ],
-  entryComponents: [SignUPDialog],
+  entryComponents: [SignUPDialog,ForgetPassDialog],
   bootstrap: [AppComponent],
 
 })

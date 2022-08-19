@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, Input, EventEmitter, ViewChildren, Inject } from '@angular/core';
+import { Component, OnInit, Output, Input, ElementRef, EventEmitter, ViewChildren, Inject, ViewChild, Directive, ContentChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 //import { AuthService } from '../../shared/auth/auth.service';
 import { ApiService } from './api.service';
@@ -12,9 +12,20 @@ import { subservice } from '../../../app/Models/subservice';
 import { AllmodelsService } from '../../Models/allmodels.service'
 import { CookieService } from 'ngx-cookie-service';
 import { GlobalvarService } from '../../globalvar.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import {
+  MatSnackBar, MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition
+} from '@angular/material/snack-bar';
 import { value } from '../../shared/data/dropdowns';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+export interface DialogData {
+  mobilenumber: string;
+}
+export enum ToggleEnum {
+  Option1,
+  Option2,
+  Option3
+}
 
 @Component({
   selector: 'app-loginbox',
@@ -25,6 +36,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 })
 export class LoginboxComponent implements OnInit {
   @Input() childMessage1: any;
+  login: boolean = false;
   loguser = [{ username: 'ad', password: 'ad' }];
   selecteduser;
   title = 'otp';
@@ -46,17 +58,19 @@ export class LoginboxComponent implements OnInit {
   public loginByUserName: boolean = false;
   public getOtp: boolean = false;
   form: FormGroup;
-  userForm: FormGroup;                    // {1}
-  private formSubmitAttempt: boolean; // {2}
-
+  userForm: FormGroup;
+  private formSubmitAttempt: boolean;
   constructor(
-    private fb: FormBuilder, private fbuser: FormBuilder,        // {3}
-    private api: ApiService,
+    private fb: FormBuilder,
+    private fbuser: FormBuilder,
     private golvar: GlobalvarService,
     private router: Router,
-    private pdata: AllmodelsService, // {4}
+    private api: ApiService,
+    private pdata: AllmodelsService,
     private cookieService: CookieService,
-    private _snackBar: MatSnackBar, public dialog: MatDialog
+    private _snackBar: MatSnackBar,
+    public signupdialog: MatDialog,
+    public forgetpassdialog: MatDialog
   ) {
     this.otpForm = this.toFormGroup(this.formInput);
   }
@@ -114,49 +128,130 @@ export class LoginboxComponent implements OnInit {
   public getMobile: boolean = true;
   public errormsg = "";
   public invalidpass: boolean = false;
+  public mobileforregister: string;
+  ////////////////////
+  public signupData: { mn: string, nationalid: string, name: string, family: string, btn: string, userKind: number };
+  ////////////////////
+  EnterByOtp() {
+    this.getMobile = true;
+    this.getOtp = false;
+    this.loginByUserName = false;
+  }
   signin() {
-    //check mobilenumber exist in db
-    if (this.form.controls.mobilenumber.value == "09120762744") {
-      this.getMobile = false;
-      this.getOtp = true;
-      this.loginByUserName = false;
-      this.otpWait = this.OTPTIME;
-      this.startTimer();
-    }
-    else {
-      this.form.reset();
-      this.openSnackBar('شماره تلفن همراه وارد شده در سیستم ثبت نشده است!', '', 'red-snackbar', 5)
-    }
+    this.mobileforregister = this.form.controls.mobilenumber.value;
+    this.login = true;
+    this.api.sendsms(this.form.controls.mobilenumber.value).subscribe(
+      res => {
+        console.log(res)
+        if (res['result'] == 'mobile number not match') {
+          this.form.reset();
+          this.openSnackBar('شماره تلفن همراه وارد شده در سیستم ثبت نشده است!', '', 'red-snackbar', 5)
+          this.signup()
+        }
+        else {
+          this.getMobile = false;
+          this.getOtp = true;
+          this.loginByUserName = false;
+          this.otpWait = this.OTPTIME;
+          this.startTimer();
+        }
+
+      },
+      err => {
+        console.log(err)
+        this.openSnackBar('خطای ارتباط با سرور!', '', 'red-snackbar', 5)
+
+      }
+    )
   }
   signup(): void {
-    const dialogRef = this.dialog.open(SignUPDialog, {
-      width: '350px',
-      data: { mobilenumber: "12313"},
-      disableClose: true 
+    console.log(this.mobileforregister)
+    const dialogRef = this.signupdialog.open(SignUPDialog, {
+      width: '400px',
+      data: { mobilenumber: this.mobileforregister },
+      disableClose: true
     });
-
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-
+      if (result.btn == "ok") {
+        this.login = false;
+        this.signupData = result;
+        console.log('The dialog was closed');
+        this.api.justsms(result.mn).subscribe(
+          res => {
+            this.getMobile = false;
+            this.getOtp = true;
+            this.loginByUserName = false;
+            this.otpWait = this.OTPTIME;
+            this.startTimer();
+          },
+          err => {
+            console.log(err)
+            this.openSnackBar('خطای ارتباط با سرور!', '', 'red-snackbar', 5)
+          }
+        )
+      }
     });
   }
   OtpCheck() {
     var otpArray = [];
     otpArray = this.otpForm.value
     var otp = otpArray['input1'] + "" + otpArray['input2'] + "" + otpArray['input3'] + "" + otpArray['input4']
-    if (otp == "1234") {
-      this.router.navigate(['dashboard/dashboard1']);
-      this.openSnackBar('شما با موفقیت وارد شدید!', '', 'green-snackbar', 4)
-    }
-    else {
-      this.otpForm.reset();
-      this.openSnackBar('کد وارد شده صحیح نمی باشد!', 'متوجه شدم', 'red-snackbar', 7)
-    }
+    this.api.checksms(otp, this.mobileforregister).subscribe(
+      res => {
+        if (res['result'] == 'success') {
+          if (this.login) {
+            this.router.navigate(['dashboard/dashboard1']);
+            this.openSnackBar('شما با موفقیت وارد شدید!', '', 'green-snackbar', 4)
+          }
+          else {
+            console.log(this.signupData)
+            this.api.register(this.signupData.mn, this.signupData.name, this.signupData.family, this.signupData.nationalid, this.signupData.userKind).subscribe(
+              res => {
+                console.log(res)
+                this.router.navigate(['dashboard/dashboard1']);
+                this.openSnackBar('شما با موفقیت ثبت نام شده اید!', '', 'green-snackbar', 4)
+              },
+              err => {
+                console.log(err)
+                this.openSnackBar('خطا در ارتباط با سرور', '', 'red-snackbar', 5)
+
+              }
+            )
+          }
+        } else {
+          this.otpForm.reset();
+          this.openSnackBar('کد وارد شده صحیح  نیست', '', 'red-snackbar', 5)
+        }
+      }
+      ,
+      err => {
+        this.otpForm.reset();
+        this.openSnackBar('خطا در ارتباط با سرور', '', 'red-snackbar', 5)
+      }
+    )
   }
   OtpReSend() {
     this.otpReSend = false;
     this.otpForm.reset();
     this.openSnackBar('پیامک مجددا ارسال شد!', '', 'green-snackbar', 4)
+    this.api.sendsms(this.form.controls.mobilenumber.value).subscribe(
+      res => {
+        console.log(res)
+        if (res['result'] == 'mobile number not match') {
+          this.form.reset();
+          this.openSnackBar('شماره تلفن همراه وارد شده در سیستم ثبت نشده است!', '', 'red-snackbar', 5)
+          this.signup()
+        }
+        else {
+          this.getMobile = false;
+          this.getOtp = true;
+          this.loginByUserName = false;
+          this.otpWait = this.OTPTIME;
+          this.startTimer();
+        }
+      },
+      err => { console.log(err) }
+    )
   }
   EditMobileNumber() {
     this.getMobile = true;
@@ -165,14 +260,15 @@ export class LoginboxComponent implements OnInit {
     this.otpForm.reset();
     this.form.reset();
   }
+  /////////////////////////
   EnterByUserName() {
     this.getMobile = false;
     this.getOtp = false;
     this.loginByUserName = true;
   }
-  usersignin(){
+  usersignin() {
     //check username and password exist in db
-    if(this.userForm.controls.username.value == "masih" && this.userForm.controls.password.value == "1234"){
+    if (this.userForm.controls.username.value == "masih" && this.userForm.controls.password.value == "1234") {
       this.router.navigate(['dashboard/dashboard1']);
       this.openSnackBar('شما با موفقیت وارد شدید!', '', 'green-snackbar', 4)
     }
@@ -181,84 +277,22 @@ export class LoginboxComponent implements OnInit {
       this.openSnackBar('نام کاربری و یا گذرواژه وارد شده صحیح نمی باشد!', '', 'red-snackbar', 7)
     }
   }
-  EnterByOtp() {
-    this.getMobile = true;
-    this.getOtp = false;
-    this.loginByUserName = false;
+  forgetpass(): void {
+    const dialogRef1 = this.forgetpassdialog.open(ForgetPassDialog, {
+      width: '800px',
+      data: { mobilenumber: "12313" },
+      disableClose: true
+    });
+
+    dialogRef1.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+
+    });
   }
-  // onSubmit() {
-  //   if (!this.ca) {
-  //     var resstat = 0;
-  //     var u = this.form.controls.username.value;
-  //     var p = this.form.controls.password.value;
-  //     if (u != "" && p != "") {
-  //       this.api.login(u, p).subscribe(
-  //         response => {
-  //           resstat = response.status;
-  //           // console.log(response.status);
-  //           if (resstat == 200) {
-  //             this.invalidpass = false
-  //             // console.log(response.body.key)
-  //             const token_parts = response.body.key;
-  //             // console.log(token_parts)
-  //             this.cookieService.set('T', token_parts);
-  //             this.api.getPersonauth(token_parts).subscribe(
-  //               response1 => {
-  //                 console.log(response1)
-  //                 var rr = []
-  //                 rr = response1
-  //                 if (rr.length != 0) {
-  //                   if (response1[0].active != null && response1[0].active == true) {
 
-  //                     this.p2 = response1[0].catrgory;
-  //                     this.golvar.authcat = this.p2.toString();
-  //                     sessionStorage.setItem('auth', this.p2.toString())
-  //                     sessionStorage.setItem('NID', response1[0].person)
-  //                     sessionStorage.setItem('NIDmain', response1[0].person)
-  //                     this.router.navigate(['dashboard/dashboard1']);
-  //                   }
-  //                   else {
-  //                     this.router.navigate(['forms/bordered']);
-  //                     this.p2 = response1[0].catrgory;
-  //                     this.golvar.authcat = this.p2.toString();
-  //                     // alert("is not active user")
-  //                   }
-  //                 }
-  //                 else {
-  //                   this.invalidpass = true;
-  //                   this.errormsg = "فرآیند ثبت نام به صورت کامل طی نشده است، لطفا با کارشناسان پشتیبانی شرکت در تماس باشید!"
 
-  //                 }
-  //               },
-  //               err => {
-  //                 console.error('refresh error', err);
-  //                 this.errors = err['error'];
-  //               }
-  //             )
-  //           }
-  //           else {
-  //             this.invalidpass = true;
-  //             this.errormsg = "نام کاربری و یا گذرواژه نادرست می باشد."
-
-  //           }
-  //         },
-  //         error => {
-  //           this.invalidpass = true;
-  //           this.errormsg = "نام کاربری و یا گذرواژه نادرست می باشد."
-  //           console.log(error.status);
-
-  //         }
-  //       );
-  //     }
-  //   } else {
-  //     this.invalidpass = true;
-  //     this.errormsg = "عدم امکان ارتباط با سرور!"
-  //     this.openSnackBar(this.errormsg, "متوجه شدم", "r-snackbar") 
-
-  //   }
-  // }
   interval;
-  public otpWait = 10;
+  public otpWait = 60;
   startTimer() {
     clearInterval(this.interval);
     this.otpWait = this.OTPTIME;
@@ -271,33 +305,121 @@ export class LoginboxComponent implements OnInit {
       }
     }, 1000)
   }
-  openSnackBar(message: string, action: string, alertkind: string, showtime: number) {
+  openSnackBar(message: string, action: string, alertkind: string, showtime: number, hp?: MatSnackBarHorizontalPosition, vp?: MatSnackBarVerticalPosition) {
     this._snackBar.open(message, action, {
       duration: showtime * 1000,
       panelClass: [alertkind],
+      horizontalPosition: hp,
+      verticalPosition: vp
+
     });
   }
 }
-export interface DialogData {
-  mobilenumber: string;
-}
+
+
+/////////////signup dialog//////////////
+
 @Component({
   selector: 'sign-uP-Dialog',
   templateUrl: 'signupdialog.html',
 })
 export class SignUPDialog implements OnInit {
+  public alertshow: boolean = false;
+  public userkind: string = "null";
+  horizontalPosition: MatSnackBarHorizontalPosition = 'start';
+  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   constructor(
+    private api: ApiService,
     private fb: FormBuilder,
+    private _snackBar: MatSnackBar,
     public dialogRef: MatDialogRef<SignUPDialog>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
   ) { }
   form: FormGroup;
-  private formSubmitAttempt: boolean; 
+  private formSubmitAttempt: boolean;
+  public isCustomer: boolean = true;
+  public usercategory: { id: string, name: string }[]
+  public uc = 0;
+  radioModel;
   ngOnInit() {
-    this.form = this.fb.group({     // {5}
-      mobilenumber: ['', Validators.required],
+    console.log(this.data)
+
+    this.api.GetPersonCategories().subscribe(
+      res => {
+        this.usercategory = res
+        console.log(this.usercategory)
+      },
+      err => {
+        console.log(err)
+      }
+    )
+    this.form = this.fb.group({
+      nationalid: [''],    // {5}
+      mobilenumber: [this.data.mobilenumber, Validators.required],
       name: ['', Validators.required],
       family: ['', Validators.required]
+    });
+  }
+  selectuserkind(uk: number) {
+    this.uc = uk
+  }
+
+  isFieldInvalid(field: string) { // {6}
+    return (
+      (!this.form.get(field).valid && this.form.get(field).touched) ||
+      (this.form.get(field).untouched && this.formSubmitAttempt)
+    );
+  }
+  close() {
+    this.dialogRef.close();
+  }
+  signup(): void {
+    var nationalid = this.form.value['nationalid']
+    var mobileNumaber = this.form.value['mobilenumber']
+    var name = this.form.value['name']
+    var family = this.form.value['family']
+    if (this.uc == 0) {
+      this.alertshow = true;
+    }
+    else {
+      var data: { mn: string, nationalid: string, name: string, family: string, btn: string, userKind: number } = { mn: mobileNumaber, nationalid: nationalid, name: name, family: family, btn: "ok", userKind: this.uc }
+      this.dialogRef.close(data);
+    }
+  }
+
+  openSnackBar(message: string, action: string, alertkind: string, showtime: number, hp?: MatSnackBarHorizontalPosition, vp?: MatSnackBarVerticalPosition) {
+    this._snackBar.open(message, action, {
+      duration: showtime * 1000,
+      panelClass: [alertkind],
+      horizontalPosition: hp = 'start',
+      verticalPosition: vp = 'bottom',
+    });
+  }
+}
+
+/////////////forgetpassword dialog//////////////
+
+@Component({
+  selector: 'forget-pass-Dialog',
+  templateUrl: 'forgetpassword.html',
+})
+export class ForgetPassDialog implements OnInit {
+  constructor(
+    private fb: FormBuilder,
+    public dialogRef: MatDialogRef<ForgetPassDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+  ) { }
+  form: FormGroup;
+  private formSubmitAttempt: boolean;
+  public getmobile: boolean;
+  public getsms: boolean;
+  public changepassword: boolean;
+  public passok: boolean;
+  ngOnInit() {
+    this.getmobile = true;
+    this.form = this.fb.group({     // {5}
+      mobilenumber: ['', Validators.required],
+      username: ['', Validators.required]
     });
   }
   isFieldInvalid(field: string) { // {6}
@@ -306,14 +428,17 @@ export class SignUPDialog implements OnInit {
       (this.form.get(field).untouched && this.formSubmitAttempt)
     );
   }
-  close(){
+  close() {
     this.dialogRef.close();
   }
-  signup(): void {
-    var mobileNumaber=this.form.value['mobilenumber']
-    var name=this.form.value['mobilenumber']
-    var family=this.form.value['mobilenumber']
+  sendsms() {
+
+  }
+  changepass(): void {
+    var mobileNumaber = this.form.value['mobilenumber']
+    var name = this.form.value['username']
     ////call singup api to register user in db
     this.dialogRef.close();
   }
 }
+

@@ -133,3 +133,16 @@ body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+.sv_main .sv_container .sv_body .sv_p_root table th {
+    line-height: 1.3em;
+    padding: 0.5em;
+    vertical-align: bottom;
+    font-weight: bold;
+    text-align: center;
+    font-family: "iransans";
+}
+
+.sv_main .sv_container .sv_body .sv_p_root input:not([type=button]):not([type=reset]):not([type=submit]):not([type=image]):not([type=checkbox]):not([type=radio]) {
+    text-align: left;
+}

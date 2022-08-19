@@ -12,7 +12,8 @@ import { ApiService } from '../../app/login/loginbox/api.service';
 export class LoginComponent implements OnInit {
   form: FormGroup;                    // {1}
   private formSubmitAttempt: boolean; // {2}
-
+  public theme1:boolean=false;
+  public theme2:boolean=true;
   
   public childComponentLoaded: boolean = false;
   loadChildComponent() {
